@@ -1,0 +1,2005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SafeLife — Pregnancy (Stage 0) · PRO</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════ THEME ENGINE ═══════════ */
+:root {
+  --navy:#0D1B2A; --navy-mid:#1A2F45;
+  --critical:#DC2626; --high:#EA580C; --medium:#D97706; --low:#16A34A;
+  --radius:12px;
+  --shadow:0 2px 12px rgba(13,27,42,0.08);
+  --shadow-lg:0 8px 32px rgba(13,27,42,0.14);
+}
+body[data-theme="lavender"] { --accent:#A78BFA; --accent-dark:#7C5CE6; --accent-rgb:167,139,250; }
+body[data-theme="teal"]   { --accent:#14B8A6; --accent-dark:#0D9488; --accent-rgb:20,184,166; }
+body[data-theme="amber"]  { --accent:#F59E0B; --accent-dark:#D97706; --accent-rgb:245,158,11; }
+body[data-theme="rose"]   { --accent:#E11D48; --accent-dark:#BE123C; --accent-rgb:225,29,72; }
+body[data-theme="violet"] { --accent:#7C3AED; --accent-dark:#6D28D9; --accent-rgb:124,58,237; }
+body[data-theme="ocean"]  { --accent:#2563EB; --accent-dark:#1D4ED8; --accent-rgb:37,99,235; }
+body[data-theme="forest"] { --accent:#16A34A; --accent-dark:#15803D; --accent-rgb:22,163,74; }
+body[data-mode="light"] {
+  --bg:#F9F6F0; --surface:#FFFFFF; --surface-2:#EDE6D6; --tile:#F9F6F0;
+  --ink:#0D1B2A; --ink-mid:#3A4A5C; --ink-soft:#6B7A8D; --line:#EDE6D6;
+  --critical-bg:#FEF2F2; --high-bg:#FFF7ED; --medium-bg:#FFFBEB; --low-bg:#F0FDF4;
+}
+body[data-mode="dark"] {
+  --bg:#0B1420; --surface:#13202F; --surface-2:#1C2C3E; --tile:#0F1A28;
+  --ink:#EDF2F7; --ink-mid:#B7C4D1; --ink-soft:#8194A7; --line:#243549;
+  --critical-bg:rgba(220,38,38,.16); --high-bg:rgba(234,88,12,.16);
+  --medium-bg:rgba(217,119,6,.16); --low-bg:rgba(22,163,74,.16);
+  --shadow:0 2px 12px rgba(0,0,0,0.35); --shadow-lg:0 8px 32px rgba(0,0,0,0.5);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased;transition:background .3s,color .3s;}
+
+/* ═══════════ TOP BAR ═══════════ */
+.topbar{background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 20px;min-height:58px;position:relative;z-index:300;border-bottom:2px solid var(--accent);flex-wrap:wrap;}
+.topbar-brand{display:flex;align-items:center;gap:12px;}
+.topbar-logo{width:34px;height:34px;background:linear-gradient(135deg,var(--accent),var(--accent-dark));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;font-family:'Sora',sans-serif;color:#fff;box-shadow:0 2px 8px rgba(var(--accent-rgb),.4);}
+.topbar-name{font-family:'Sora',sans-serif;font-size:17px;font-weight:700;letter-spacing:-.3px;}
+.topbar-name span{color:var(--accent);}
+.topbar-tagline{font-size:11px;color:rgba(255,255,255,.5);font-style:italic;}
+.topbar-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.progress-pill{background:rgba(var(--accent-rgb),.15);border:1px solid rgba(var(--accent-rgb),.3);border-radius:20px;padding:4px 14px;font-size:12px;font-weight:600;color:var(--accent);display:flex;align-items:center;gap:6px;white-space:nowrap;}
+.progress-pill span{color:#fff;font-size:13px;}
+.toolbar{display:flex;gap:6px;flex-wrap:wrap;}
+.tool-btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#fff;border-radius:8px;padding:6px 10px;font-size:13px;cursor:pointer;font-family:'Inter',sans-serif;font-weight:600;display:flex;align-items:center;gap:5px;transition:all .2s;position:relative;}
+.tool-btn:hover{background:rgba(var(--accent-rgb),.3);border-color:var(--accent);}
+.tool-btn .tb-label{font-size:11px;}
+@media(max-width:820px){.tool-btn .tb-label{display:none;}.topbar-tagline{display:none;}}
+
+/* ═══════════ DROPDOWN PANELS ═══════════ */
+.dropdown{position:absolute;top:calc(100% + 8px);right:0;background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow-lg);padding:10px;display:none;z-index:400;min-width:190px;}
+.dropdown.open{display:block;}
+.dropdown-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--ink-soft);padding:4px 8px 8px;}
+.theme-row{display:flex;align-items:center;gap:10px;width:100%;padding:8px;border:none;background:none;border-radius:8px;cursor:pointer;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:var(--ink);text-align:left;}
+.theme-row:hover{background:rgba(var(--accent-rgb),.08);}
+.theme-row.selected{background:rgba(var(--accent-rgb),.12);}
+.theme-swatch{width:18px;height:18px;border-radius:6px;flex-shrink:0;}
+.theme-row .check-mark{margin-left:auto;color:var(--accent);font-weight:800;}
+
+/* ═══════════ HERO ═══════════ */
+.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-mid) 60%,#3a2703 100%);padding:48px 32px 40px;text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 70% 50%,rgba(var(--accent-rgb),.14) 0%,transparent 60%);}
+.hero-emoji{font-size:64px;line-height:1;margin-bottom:12px;display:block;position:relative;}
+.hero-title{font-family:'Sora',sans-serif;font-size:32px;font-weight:800;color:#fff;margin-bottom:6px;position:relative;}
+.hero-subtitle{font-size:15px;color:rgba(255,255,255,.65);margin-bottom:20px;position:relative;}
+.hero-badges{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;position:relative;}
+.hero-badge{background:rgba(var(--accent-rgb),.15);border:1px solid rgba(var(--accent-rgb),.35);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:600;color:var(--accent);display:flex;align-items:center;gap:5px;cursor:pointer;transition:background .2s,transform .15s;user-select:none;}
+.hero-badge:hover{background:rgba(var(--accent-rgb),.28);transform:translateY(-1px);}
+
+/* ═══════════ PROGRESS ═══════════ */
+.progress-section{background:var(--surface);border-bottom:1px solid var(--line);padding:0 32px;height:46px;display:flex;align-items:center;gap:20px;position:sticky;top:0;z-index:290;box-shadow:0 2px 8px rgba(13,27,42,.06);}
+.progress-label{font-size:12px;font-weight:600;color:var(--ink-soft);white-space:nowrap;}
+.progress-track{flex:1;height:8px;background:var(--surface-2);border-radius:4px;overflow:hidden;}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-dark));border-radius:4px;width:0%;transition:width .4s ease;}
+.progress-count{font-size:13px;font-weight:700;color:var(--accent);white-space:nowrap;}
+.celebrate{display:none;background:linear-gradient(135deg,rgba(var(--accent-rgb),.15),rgba(var(--accent-rgb),.05));border-bottom:1px solid rgba(var(--accent-rgb),.3);padding:14px 32px;text-align:center;font-weight:700;color:var(--accent-dark);font-size:15px;font-family:'Sora',sans-serif;}
+.celebrate.show{display:block;}
+
+/* ═══════════ SEARCH ═══════════ */
+.search-wrap{padding:20px 20px 0;max-width:860px;margin:0 auto;}
+.search-box{width:100%;padding:10px 16px 10px 40px;border:1px solid var(--line);border-radius:8px;background:var(--surface);font-size:14px;font-family:'Inter',sans-serif;color:var(--ink);outline:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236B7A8D' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:12px center;transition:border-color .2s;}
+.search-box:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(var(--accent-rgb),.1);}
+.search-no-results{text-align:center;padding:40px;color:var(--ink-soft);font-size:14px;display:none;}
+
+/* ═══════════ ZONE TABS ═══════════ */
+.zone-tabs{background:var(--surface);border-bottom:2px solid var(--line);display:flex;overflow-x:auto;padding:0 24px;gap:4px;scrollbar-width:none;position:sticky;top:46px;z-index:200;}
+.zone-tabs::-webkit-scrollbar{display:none;}
+.zone-tab{display:flex;align-items:center;gap:7px;padding:14px 18px;border:none;background:none;cursor:pointer;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:var(--ink-soft);white-space:nowrap;border-bottom:3px solid transparent;transition:all .2s;margin-bottom:-2px;}
+.zone-tab:hover{color:var(--accent);background:rgba(var(--accent-rgb),.05);}
+.zone-tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+.zone-tab-count{background:var(--surface-2);border-radius:10px;padding:1px 7px;font-size:11px;font-weight:700;color:var(--ink-soft);}
+.zone-tab.active .zone-tab-count{background:rgba(var(--accent-rgb),.15);color:var(--accent);}
+
+/* ═══════════ MAIN / STATS ═══════════ */
+.main{max-width:860px;margin:0 auto;padding:28px 20px 60px;}
+.stats-bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;align-items:center;}
+.stat-pill{display:flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 14px;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;user-select:none;}
+.stat-pill:hover{border-color:var(--accent);}
+.stat-pill.filter-on{border-color:var(--accent);background:rgba(var(--accent-rgb),.08);box-shadow:0 0 0 2px rgba(var(--accent-rgb),.15);}
+.stat-dot{width:8px;height:8px;border-radius:50%;}
+.stat-dot.critical{background:var(--critical);}.stat-dot.high{background:var(--high);}.stat-dot.medium{background:var(--medium);}.stat-dot.low{background:var(--low);}
+.stat-count{font-size:15px;font-weight:700;}
+.risk-legend{display:flex;gap:12px;flex-wrap:wrap;margin-left:auto;}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:var(--ink-soft);}
+.legend-dot{width:8px;height:8px;border-radius:3px;}
+
+/* ═══════════ ZONE PANEL ═══════════ */
+.zone-panel{display:none;}
+.zone-panel.active{display:block;}
+.zone-header{display:flex;align-items:center;gap:14px;margin-bottom:24px;padding:20px 24px;background:var(--surface);border-radius:var(--radius);border:1px solid rgba(var(--accent-rgb),.2);box-shadow:var(--shadow);}
+.zone-icon{width:52px;height:52px;background:linear-gradient(135deg,rgba(var(--accent-rgb),.12),rgba(var(--accent-rgb),.06));border:2px solid rgba(var(--accent-rgb),.25);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;}
+.zone-header-text h2{font-family:'Sora',sans-serif;font-size:20px;font-weight:700;color:var(--ink);margin-bottom:3px;}
+.zone-header-text p{font-size:13px;color:var(--ink-soft);}
+
+/* ═══════════ CHECK CARDS ═══════════ */
+.checks-list{display:flex;flex-direction:column;gap:10px;}
+.check-card{background:var(--surface);border-radius:var(--radius);border:1px solid var(--line);box-shadow:var(--shadow);overflow:hidden;transition:box-shadow .2s;}
+.check-card:hover{box-shadow:var(--shadow-lg);}
+.check-card.completed{border-color:rgba(var(--accent-rgb),.3);background:rgba(var(--accent-rgb),.03);}
+.check-header{display:flex;align-items:center;gap:12px;padding:14px 18px;cursor:pointer;user-select:none;}
+.check-checkbox{width:22px;height:22px;min-width:22px;border:2px solid var(--surface-2);border-radius:6px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;font-size:13px;background:var(--surface);}
+.check-card.completed .check-checkbox{background:var(--accent);border-color:var(--accent);color:#fff;}
+.check-num{font-size:10px;font-weight:700;color:var(--ink-soft);min-width:30px;font-family:'Sora',sans-serif;}
+.check-risk{font-size:10px;font-weight:700;padding:3px 8px;border-radius:6px;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap;}
+.risk-critical{background:var(--critical-bg);color:var(--critical);}
+.risk-high{background:var(--high-bg);color:var(--high);}
+.risk-medium{background:var(--medium-bg);color:var(--medium);}
+.risk-low{background:var(--low-bg);color:var(--low);}
+.check-title{flex:1;font-size:14px;font-weight:600;color:var(--ink);line-height:1.4;}
+.check-card.completed .check-title{color:var(--ink-soft);text-decoration:line-through;}
+.check-chevron{font-size:12px;color:var(--ink-soft);transition:transform .25s;min-width:16px;}
+.check-card.open .check-chevron{transform:rotate(180deg);}
+.check-detail{display:none;padding:0 18px 18px 18px;border-top:1px solid var(--line);}
+.check-card.open .check-detail{display:block;}
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px;}
+@media(max-width:600px){.detail-grid{grid-template-columns:1fr;}}
+.detail-item{background:var(--tile);border-radius:8px;padding:11px 13px;}
+.detail-item.full{grid-column:1/-1;}
+.detail-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--accent-dark);margin-bottom:4px;display:flex;align-items:center;gap:5px;}
+body[data-mode="dark"] .detail-label{color:var(--accent);}
+.detail-value{font-size:13px;color:var(--ink);line-height:1.55;}
+.tip-box{margin-top:12px;background:linear-gradient(135deg,rgba(var(--accent-rgb),.08),rgba(var(--accent-rgb),.04));border:1px solid rgba(var(--accent-rgb),.25);border-left:4px solid var(--accent);border-radius:8px;padding:11px 14px;display:flex;gap:10px;align-items:flex-start;}
+.tip-icon{font-size:16px;line-height:1;margin-top:1px;}
+.tip-text{font-size:13px;color:var(--ink);line-height:1.55;}
+.tip-text strong{color:var(--accent-dark);font-weight:700;}
+body[data-mode="dark"] .tip-text strong{color:var(--accent);}
+.measurement-box{margin-top:10px;background:rgba(var(--accent-rgb),.05);border:1px solid var(--line);border-radius:8px;padding:10px 13px;font-size:12px;color:var(--ink-mid);line-height:1.5;font-family:'Sora',sans-serif;}
+.measurement-box strong{color:var(--ink);font-size:11px;text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:3px;}
+
+/* ═══════════ ZONE ACTIONS ═══════════ */
+.zone-actions{display:flex;justify-content:flex-end;gap:10px;margin:14px 0 18px;flex-wrap:wrap;}
+.btn{padding:9px 18px;border-radius:8px;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all .2s;}
+.btn-outline{background:var(--surface);border:1px solid var(--line);color:var(--ink-mid);}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent);}
+.btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#fff;box-shadow:0 2px 8px rgba(var(--accent-rgb),.3);}
+.btn-primary:hover{box-shadow:0 4px 16px rgba(var(--accent-rgb),.4);transform:translateY(-1px);}
+
+/* ═══════════ MODALS ═══════════ */
+.modal-overlay{position:fixed;inset:0;background:rgba(13,27,42,.6);z-index:500;display:none;align-items:flex-start;justify-content:center;padding:40px 16px;overflow-y:auto;backdrop-filter:blur(3px);}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--surface);border-radius:16px;max-width:640px;width:100%;box-shadow:var(--shadow-lg);border-top:4px solid var(--accent);}
+.modal-head{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid var(--line);}
+.modal-head h3{font-family:'Sora',sans-serif;font-size:18px;color:var(--ink);display:flex;align-items:center;gap:8px;}
+.modal-close{background:none;border:none;font-size:22px;color:var(--ink-soft);cursor:pointer;line-height:1;padding:4px;}
+.modal-close:hover{color:var(--accent);}
+.modal-body{padding:20px 24px 26px;color:var(--ink-mid);font-size:13.5px;}
+.modal-body h4{font-family:'Sora',sans-serif;font-size:14px;color:var(--ink);margin:16px 0 6px;display:flex;align-items:center;gap:6px;}
+.modal-body h4:first-child{margin-top:0;}
+.modal-body p{margin-bottom:8px;}
+.modal-body table{width:100%;border-collapse:collapse;font-size:12.5px;margin:8px 0;}
+.modal-body th{text-align:left;padding:7px 10px;background:rgba(var(--accent-rgb),.1);color:var(--ink);font-size:11px;text-transform:uppercase;letter-spacing:.5px;}
+.modal-body td{padding:7px 10px;border-bottom:1px solid var(--line);color:var(--ink-mid);}
+.modal-body td strong{color:var(--ink);}
+.modal-actions{display:flex;gap:10px;justify-content:flex-end;padding:0 24px 22px;flex-wrap:wrap;}
+.rule-list{list-style:none;margin:6px 0;}
+.rule-list li{padding:6px 0 6px 26px;position:relative;border-bottom:1px dashed var(--line);}
+.rule-list li::before{content:'✓';position:absolute;left:2px;color:var(--accent);font-weight:800;}
+
+/* ═══════════ COLLECTION / UPSELL ═══════════ */
+.collection{max-width:860px;margin:0 auto;padding:10px 20px 50px;}
+.collection h3{font-family:'Sora',sans-serif;font-size:18px;color:var(--ink);margin-bottom:4px;}
+.collection>p{font-size:13px;color:var(--ink-soft);margin-bottom:16px;}
+.collection-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;}
+.module-card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:4px;transition:all .2s;}
+.module-card:hover{border-color:var(--accent);box-shadow:var(--shadow);}
+.module-card .m-emoji{font-size:26px;}
+.module-card .m-name{font-family:'Sora',sans-serif;font-weight:700;font-size:13.5px;color:var(--ink);}
+.module-card .m-age{font-size:11.5px;color:var(--ink-soft);}
+.module-tag{margin-top:6px;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;border-radius:6px;padding:3px 8px;align-self:flex-start;}
+.module-tag.owned{background:rgba(var(--accent-rgb),.15);color:var(--accent-dark);}
+body[data-mode="dark"] .module-tag.owned{color:var(--accent);}
+.module-tag.addon{background:var(--surface-2);color:var(--ink-soft);}
+.module-tag.coming{background:transparent;color:var(--ink-soft);border:1px dashed var(--line);}
+
+/* ═══════════ FOOTER ═══════════ */
+.footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;padding:24px;font-size:12px;line-height:1.8;}
+.footer strong{color:rgba(255,255,255,.8);}
+
+/* ═══════════ TRADEMARK ICON SET ═══════════ */
+.zic svg{width:16px;height:16px;vertical-align:-3px;}
+.zone-tab .zic svg{color:inherit;}
+.topbar-logo svg{width:22px;height:22px;color:#fff;}
+.hero-emoji svg{width:72px;height:72px;color:var(--accent);filter:drop-shadow(0 4px 14px rgba(var(--accent-rgb),.45));}
+.zone-icon svg{width:27px;height:27px;color:var(--accent-dark);}
+body[data-mode="dark"] .zone-icon svg{color:var(--accent);}
+.module-card .m-emoji svg{width:30px;height:30px;color:var(--accent-dark);}
+body[data-mode="dark"] .module-card .m-emoji svg{color:var(--accent);}
+
+/* ═══════════ FLOATING NAV / DISCLAIMERS ═══════════ */
+html{scroll-behavior:smooth;}
+.float-nav{position:fixed;right:16px;bottom:20px;display:flex;flex-direction:column;gap:8px;z-index:250;}
+html[dir="rtl"] .float-nav{right:auto;left:16px;}
+.float-btn{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--accent-dark);font-size:18px;font-weight:800;cursor:pointer;box-shadow:var(--shadow-lg);transition:all .2s;}
+.float-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent);transform:translateY(-2px);}
+body[data-mode="dark"] .float-btn{color:var(--accent);}
+.zone-disclaimer{margin-top:18px;padding:10px 14px;border:1px dashed var(--line);border-radius:8px;font-size:11.5px;color:var(--ink-soft);text-align:center;}
+.print-disclaimer{display:none;}
+
+/* ═══════════ PRINT ═══════════ */
+#cheat-print{display:none;}
+@media print{
+  body{background:#fff !important;color:#000;font-size:11px;margin:0 !important;padding:0 !important;}
+  .topbar,.hero,.search-wrap,.zone-tabs,.progress-section,.zone-actions,.stats-bar,.collection,.modal-overlay,.celebrate,.dropdown{display:none !important;}
+  .main{max-width:100%;padding:0 0 30px;}
+  .check-card{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid;margin-bottom:6px;}
+  .check-detail{display:block !important;border-top:1px solid #ddd;}
+  .check-chevron{display:none;}
+  .zone-panel{display:block !important;page-break-before:auto;}
+  .zone-header{box-shadow:none;border:1px solid #ccc;margin-top:14px;}
+  body.print-zone .zone-panel{display:none !important;}
+  body.print-zone .zone-panel.active{display:block !important;}
+  body.print-cheat .main,body.print-cheat .footer,body.print-cheat .zone-panel,body.print-cheat .print-disclaimer{display:none !important;}
+  body.print-cheat #cheat-print{display:block !important;}
+  #cheat-print{margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  .cp-card{border:2.5px solid #0D1B2A;border-radius:16px;overflow:hidden;font-family:'Inter',sans-serif;color:#0D1B2A;height:272mm;display:flex;flex-direction:column;page-break-inside:avoid;page-break-after:avoid;}
+  .cp-head{background:#0D1B2A !important;color:#fff;display:flex;align-items:center;gap:12px;padding:13px 22px;}
+  .cp-head svg{width:38px;height:38px;color:var(--accent);}
+  .cp-title{font-family:'Sora',sans-serif;font-size:20px;font-weight:800;line-height:1.2;}
+  .cp-title em{color:var(--accent);font-style:normal;}
+  .cp-sub{font-size:11.5px;color:rgba(255,255,255,.78);margin-top:2px;}
+  .cp-tag{margin-left:auto;font-size:10px;font-style:italic;color:rgba(255,255,255,.65);text-align:right;}
+  .cp-contacts{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:11px 22px;background:rgba(var(--accent-rgb),.09) !important;}
+  .cp-chip{border:1.2px solid rgba(var(--accent-rgb),.55);border-radius:8px;padding:5px 9px;background:#fff !important;}
+  .cp-chip b{display:block;font-size:8.5px;text-transform:uppercase;letter-spacing:.3px;color:var(--accent-dark);}
+  .cp-chip span{font-size:12px;font-weight:700;}
+  .cp-cols{display:flex;gap:20px;padding:13px 22px 6px;flex:1;min-height:0;overflow:hidden;}
+  .cp-cols h3{font-family:'Sora',sans-serif;font-size:13px;border-bottom:2px solid var(--accent);padding-bottom:3px;margin:0 0 8px;}
+  .cp-rules{flex:1.15;}
+  .cp-rules ul{list-style:none;margin:0;padding:0;}
+  .cp-rules li{font-size:11px;line-height:1.5;padding:4px 0 4px 18px;position:relative;border-bottom:1px dashed #ddd;}
+  .cp-rules li::before{content:'✓';position:absolute;left:0;color:var(--accent-dark);font-weight:800;}
+  html[dir="rtl"] .cp-rules li{padding:4px 18px 4px 0;}
+  html[dir="rtl"] .cp-rules li::before{left:auto;right:0;}
+  .cp-numsec{flex:1;}
+  .cp-numsec table{width:100%;border-collapse:collapse;font-size:10.5px;}
+  .cp-numsec td{border-bottom:1px solid #eee;padding:4px 5px;vertical-align:top;}
+  .cp-numsec td strong{color:#0D1B2A;}
+  .cp-notes{margin:6px 22px 10px;border:1.5px dashed var(--accent);border-radius:10px;padding:8px 13px;font-size:11px;white-space:pre-wrap;max-height:34mm;overflow:hidden;}
+  .cp-notes b{font-size:9px;text-transform:uppercase;letter-spacing:.5px;color:var(--accent-dark);display:block;margin-bottom:2px;}
+  .cp-foot{display:flex;align-items:center;justify-content:space-between;gap:14px;background:#0D1B2A !important;color:rgba(255,255,255,.85);padding:9px 22px;font-size:10px;line-height:1.55;margin-top:auto;}
+  .cp-foot b{color:var(--accent);}
+  .cp-qr{display:flex;align-items:center;gap:10px;text-align:right;}
+  .cp-qr img{width:68px;height:68px;background:#fff;border-radius:8px;padding:3px;}
+  .cp-qr .qr-ph{width:68px;height:68px;border:1.5px dashed rgba(255,255,255,.5);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:8.5px;text-align:center;color:rgba(255,255,255,.6);padding:4px;}
+  .footer{background:#fff;color:#555;}
+  .footer strong{color:#000;}
+  .float-nav{display:none !important;}
+  .print-disclaimer{display:block !important;position:fixed;bottom:0;left:0;right:0;text-align:center;font-size:8.5px;color:#666;border-top:1px solid #ccc;padding:3px 0;background:#fff;}
+  @page{size:A4;margin:10mm 10mm 12mm;}
+}
+</style>
+</head>
+<body data-theme="lavender" data-mode="light">
+
+<!-- TOP BAR -->
+<header class="topbar">
+  <div class="topbar-brand">
+    <div class="topbar-logo" id="logo-icon">S</div>
+    <div>
+      <div class="topbar-name">Safe<span>Life</span></div>
+      <div class="topbar-tagline">To all moms by a mom · NEBOSH &amp; OSHA Professional</div>
+    </div>
+  </div>
+  <div class="topbar-meta">
+    <div class="toolbar">
+      <button class="tool-btn" id="btn-search" title="Search all checks">🔍</button>
+      <button class="tool-btn" id="btn-manual" title="User Manual">📖<span class="tb-label" data-i18n="manual">Manual</span></button>
+      <button class="tool-btn" id="btn-cheat" title="Emergency Cheat Sheet">🚨<span class="tb-label" data-i18n="cheat">Cheat Sheet</span></button>
+      <button class="tool-btn" id="btn-print" title="Print / Save as PDF">🖨️<span class="tb-label" data-i18n="printPdf">Print / PDF</span></button>
+      <button class="tool-btn" id="btn-save" title="Save progress to file">💾<span class="tb-label" data-i18n="save">Save</span></button>
+      <button class="tool-btn" id="btn-load" title="Load saved progress">📂<span class="tb-label" data-i18n="load">Load</span></button>
+      <button class="tool-btn" id="btn-lang" title="Language" style="display:none">🌐<span class="tb-label" id="lang-label">EN</span>
+        <div class="dropdown" id="dd-lang"></div>
+      </button>
+      <button class="tool-btn" id="btn-theme" title="Colour theme">🎨<span class="tb-label" data-i18n="theme">Theme</span>
+        <div class="dropdown" id="dd-theme"></div>
+      </button>
+      <button class="tool-btn" id="btn-mode" title="Light / dark mode">🌙</button>
+    </div>
+    <div class="progress-pill"><span id="topbar-done">0</span>&nbsp;/ 84 <span data-i18n="checksDone" style="color:inherit;font-size:12px;">checks done</span></div>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <span class="hero-emoji" id="hero-icon">🤰</span>
+  <div class="hero-title" data-i18n="heroTitle">Pregnancy Safety — Every Trimester</div>
+  <div class="hero-subtitle" data-i18n="heroSub">84 evidence-based safety checks across 8 zones · From the first positive test to bringing your baby home</div>
+  <div class="hero-badges">
+    <div class="hero-badge" data-zone="1"><span class="zic" data-zi="z1"></span> <span data-i18n="bz1">First Trimester</span></div>
+    <div class="hero-badge" data-zone="2"><span class="zic" data-zi="z2"></span> <span data-i18n="bz2">Second Trimester</span></div>
+    <div class="hero-badge" data-zone="3"><span class="zic" data-zi="z3"></span> <span data-i18n="bz3">Third Trimester</span></div>
+    <div class="hero-badge" data-zone="4"><span class="zic" data-zi="z4"></span> <span data-i18n="bz4">Home &amp; Chemical</span></div>
+    <div class="hero-badge" data-zone="5"><span class="zic" data-zi="z5"></span> <span data-i18n="bz5">Movement &amp; Falls</span></div>
+    <div class="hero-badge" data-zone="6"><span class="zic" data-zi="z6"></span> <span data-i18n="bz6">Rest &amp; Comfort</span></div>
+    <div class="hero-badge" data-zone="7"><span class="zic" data-zi="z7"></span> <span data-i18n="bz7">Mental Wellbeing</span></div>
+    <div class="hero-badge" data-zone="8"><span class="zic" data-zi="z8"></span> <span data-i18n="bz8">Baby Prep</span></div>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-section">
+  <div class="progress-label" data-i18n="overallProgress">Overall Progress</div>
+  <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+  <div class="progress-count" id="progress-count">0 of 84</div>
+</div>
+<div class="celebrate" id="celebrate">🎉 <span data-i18n="celebrate">All 84 checks complete — your pregnancy safety plan is fully in place! Print your checklist as a keepsake.</span></div>
+
+<!-- SEARCH -->
+<div class="search-wrap">
+  <input class="search-box" type="text" id="search-input" placeholder="Search checks… e.g. car seat, fetal movement, folic acid, bleeding, crib…">
+</div>
+
+<!-- ZONE TABS -->
+<div class="zone-tabs" id="zone-tabs">
+  <button class="zone-tab active" data-zone="1"><span class="zic" data-zi="z1"></span> <span data-i18n="z1">First Trimester</span> <span class="zone-tab-count" id="ztc-1">0/11</span></button>
+  <button class="zone-tab" data-zone="2"><span class="zic" data-zi="z2"></span> <span data-i18n="z2">Second Trimester</span> <span class="zone-tab-count" id="ztc-2">0/11</span></button>
+  <button class="zone-tab" data-zone="3"><span class="zic" data-zi="z3"></span> <span data-i18n="z3">Third Trimester</span> <span class="zone-tab-count" id="ztc-3">0/11</span></button>
+  <button class="zone-tab" data-zone="4"><span class="zic" data-zi="z4"></span> <span data-i18n="z4">Home &amp; Chemical Safety</span> <span class="zone-tab-count" id="ztc-4">0/10</span></button>
+  <button class="zone-tab" data-zone="5"><span class="zic" data-zi="z5"></span> <span data-i18n="z5">Movement &amp; Falls Prevention</span> <span class="zone-tab-count" id="ztc-5">0/10</span></button>
+  <button class="zone-tab" data-zone="6"><span class="zic" data-zi="z6"></span> <span data-i18n="z6">Rest, Sleep &amp; Comfort</span> <span class="zone-tab-count" id="ztc-6">0/10</span></button>
+  <button class="zone-tab" data-zone="7"><span class="zic" data-zi="z7"></span> <span data-i18n="z7">Mental Wellbeing</span> <span class="zone-tab-count" id="ztc-7">0/10</span></button>
+  <button class="zone-tab" data-zone="8"><span class="zic" data-zi="z8"></span> <span data-i18n="z8">Preparing for Baby</span> <span class="zone-tab-count" id="ztc-8">0/11</span></button>
+</div>
+
+<!-- MAIN -->
+<div class="main" id="main-content">
+  <div class="stats-bar" id="stats-bar">
+    <div class="stat-pill" data-risk="critical"><span class="stat-dot critical"></span><span class="stat-count" id="s-critical">0</span> <span data-i18n="critical">Critical</span></div>
+    <div class="stat-pill" data-risk="high"><span class="stat-dot high"></span><span class="stat-count" id="s-high">0</span> <span data-i18n="high">High</span></div>
+    <div class="stat-pill" data-risk="medium"><span class="stat-dot medium"></span><span class="stat-count" id="s-medium">0</span> <span data-i18n="medium">Medium</span></div>
+    <div class="stat-pill" data-risk="low"><span class="stat-dot low"></span><span class="stat-count" id="s-low">0</span> <span data-i18n="low">Low</span></div>
+    <div class="risk-legend">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--critical)"></div><span data-i18n="legendCritical">Critical = immediate action</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--high)"></div><span data-i18n="legendHigh">High = urgent attention</span></div>
+    </div>
+  </div>
+  <div id="search-no-results" class="search-no-results"><span data-i18n="noResults">No checks match your search. Try different keywords.</span><br><span data-i18n="notCovered" style="font-size:12.5px;"></span></div>
+</div>
+
+<!-- COLLECTION -->
+<div class="collection">
+  <h3 data-i18n="collTitle">The SafeLife Collection</h3>
+  <p data-i18n="collSub">One safety system for every stage of life. Add more modules any time — each works exactly like this one.</p>
+  <div class="collection-grid" id="collection-grid"></div>
+</div>
+
+<!-- SITUATION MODULES -->
+<div class="collection" style="padding-top:0;">
+  <h3>Situation Modules</h3>
+  <p>Real-life situations and conditions — each its own complete, standalone 84-check system. Available separately as they launch.</p>
+  <div class="collection-grid" id="situation-grid"></div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <strong>SafeLife</strong> · Pregnancy Module ("Stage 0") · PRO Edition<br>
+  Created by a NEBOSH &amp; OSHA trained HSE professional · "To all moms by a mom"<br>
+  Evidence base: WHO · NICE clinical guidance · ILCOR · UN R129 · BS EN safety standards · international antenatal-safety research<br>
+  <span style="color:rgba(255,255,255,.35);" data-i18n="disclaimer">This checklist is educational and does not replace professional medical advice. Always consult your doctor, midwife, or health professional.</span>
+</footer>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="modal-manual">
+  <div class="modal">
+    <div class="modal-head"><h3>📖 <span data-i18n="manualTitle">User Manual</span></h3><button class="modal-close" data-close="modal-manual">✕</button></div>
+    <div class="modal-body" id="manual-body"></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-cheat">
+  <div class="modal">
+    <div class="modal-head"><h3>🚨 <span data-i18n="cheatTitle">Emergency Cheat Sheet</span></h3><button class="modal-close" data-close="modal-cheat">✕</button></div>
+    <div class="modal-body" id="cheat-body"></div>
+    <div class="modal-actions"><button class="btn btn-outline" id="btn-seller" title="Seller: set this product's QR code" style="margin-right:auto;">⚙</button><button class="btn btn-primary" id="btn-print-cheat" data-i18n="printCheat">🖨️ Print cheat sheet</button></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-seller">
+  <div class="modal">
+    <div class="modal-head"><h3>⚙ Seller Settings</h3><button class="modal-close" data-close="modal-seller">✕</button></div>
+    <div class="modal-body" id="seller-body"></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-print">
+  <div class="modal">
+    <div class="modal-head"><h3>🖨️ <span data-i18n="printTitle">Print or Save as PDF</span></h3><button class="modal-close" data-close="modal-print">✕</button></div>
+    <div class="modal-body">
+      <p data-i18n="printHint">Choose what to print. To save as a PDF instead of printing on paper, choose "Save as PDF" as the printer in the print dialog.</p>
+      <p style="font-size:12.5px;color:var(--ink-soft);margin-top:6px;" data-i18n="printNote">All checks are automatically expanded to full detail when printing — no need to open them first.</p>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" id="print-zone" data-i18n="printZone">Current zone only</button>
+      <button class="btn btn-outline" id="print-cheat2" data-i18n="printCheat2">Cheat sheet</button>
+      <button class="btn btn-primary" id="print-all" data-i18n="printAll">Full checklist (all 84)</button>
+    </div>
+  </div>
+</div>
+
+<input type="file" id="load-file" accept=".json" style="display:none">
+
+<!-- FLOATING CHECK NAVIGATION -->
+<div class="float-nav">
+  <button class="float-btn" id="fn-top" title="Back to top">⤒</button>
+  <button class="float-btn" id="fn-prev" title="Previous check">↑</button>
+  <button class="float-btn" id="fn-next" title="Next check">↓</button>
+</div>
+
+<!-- PRINT PAGE DISCLAIMER (repeats on every printed page) -->
+<div class="print-disclaimer" data-i18n="disclaimer">This checklist is educational and does not replace professional medical advice. Always consult your doctor, midwife, or health professional.</div>
+
+<div id="cheat-print"></div>
+
+<script>
+// ═══════════════════════════════════════════
+// SELLER BRANDING — edit these three lines to make it yours
+// ═══════════════════════════════════════════
+const BRAND_NAME = 'The Snag Tag';
+const STORE_URL  = '';   // e.g. 'thesnagtag.gumroad.com' — printed under the QR code on the cheat sheet
+const QR_IMAGE   = '';   // paste your QR code as a data URL: 'data:image/png;base64,...'
+
+// ═══════════════════════════════════════════
+// I18N — full interface language packs (check content in English, verified guidance)
+// ═══════════════════════════════════════════
+const I18N = {
+en:{name:'English',manual:'Manual',cheat:'Cheat Sheet',printPdf:'Print / PDF',save:'Save',load:'Load',theme:'Theme',checksDone:'checks done',heroTitle:'Pregnancy Safety — Every Trimester',heroSub:'84 evidence-based safety checks across 8 zones · From the first positive test to bringing your baby home',bz1:'First Trimester',bz2:'Second Trimester',bz3:'Third Trimester',bz4:'Home & Chemical',bz5:'Movement & Falls',bz6:'Rest & Comfort',bz7:'Mental Wellbeing',bz8:'Baby Prep',overallProgress:'Overall Progress',ofWord:'of',z1:'First Trimester',z2:'Second Trimester',z3:'Third Trimester',z4:'Home & Chemical Safety',z5:'Movement & Falls Prevention',z6:'Rest, Sleep & Comfort',z7:'Mental Wellbeing',z8:'Preparing for Baby',zd1:'11 checks: early red-flag symptoms, workplace and chemical exposure, medication safety, folic acid, food safety, exercise, and alcohol/smoking/caffeine awareness.',zd2:'11 checks: the anatomy scan, posture and ergonomics, exercise modifications, safe travel, round ligament pain, safe sleep positioning, footwear and dental health.',zd3:'11 checks: labour signs, birth-plan logistics, hospital bag, home safety, swelling, reduced fetal movement, pre-eclampsia warning signs and final preparation.',zd4:'10 checks: cleaning products, paint and renovation fumes, pest control, gardening, ventilation, cat litter, heat exposure and safe chemical storage.',zd5:'10 checks: safe lifting, footwear and grip, trip hazards, safe bathing, balance changes, ladders, seatbelt technique and icy or wet surfaces.',zd6:'10 checks: safe sleep position, pillow support, room temperature, varicose veins, travel positioning, restless legs, heartburn, napping and hydration.',zd7:'10 checks: mood changes, support networks, stress management, antenatal depression and anxiety, and the red flags that always warrant an immediate call.',zd8:'11 checks: car seat safety, nursery setup, babyproofing head-start, postnatal home setup, feeding preparation, pets, siblings and a final walkthrough.',critical:'Critical',high:'High',medium:'Medium',low:'Low',legendCritical:'Critical = immediate action',legendHigh:'High = urgent attention',noResults:'No checks match your search. Try different keywords.',searchPh:'Search checks… e.g. car seat, fetal movement, folic acid, bleeding, crib…',who:'Who',what:'What',where:'Where',why:'Why',how:'How',standards:'Standards & Measurements',example:'Real-World Example',quickTip:'Quick Win',markAll:'Mark All Complete',unmarkAll:'Unmark All',expandAll:'Expand All',collapseAll:'Collapse All',celebrate:'All 84 checks complete — your pregnancy safety plan is fully in place! Print your checklist as a keepsake.',collTitle:'The SafeLife Collection',collSub:'One safety system for every stage of life. Every module below is a complete, standalone 84-check system — available separately, or as the full 13-module bundle.',owned:'✓ Current Module',addon:'Available Separately',disclaimer:'This checklist is educational and does not replace professional medical advice. Always consult your doctor, midwife, or health professional.',manualTitle:'User Manual',cheatTitle:'Emergency Cheat Sheet',printTitle:'Print or Save as PDF',printHint:'Choose what to print. To save as a PDF instead of printing on paper, choose "Save as PDF" as the printer in the print dialog.',printZone:'Current zone only',printCheat2:'Cheat sheet',printAll:'Full checklist (all 84)',printCheat:'🖨️ Print cheat sheet',langNote:'Safety check content is written in English (verified international guidance). Interface labels switch language.',saved:'Progress saved',loaded:'Progress loaded',cheatContacts:'My emergency contacts',cheatHint:'Make it yours: edit any name or number, add or delete rows. Everything saves automatically on this device and prints on your cheat sheet.',addContact:'+ Add contact',myNotes:'My notes',notesPh:'Allergies, medication, your maternity unit\'s address, key dates for babysitters or family…',rules:'The 10 golden rules',keyNums:'Key measurements at a glance',delRow:'Remove',notCovered:'Topic not covered in this module? Check the cheat sheet, ask your midwife or doctor, or request it via your SafeLife store page — new checks arrive in free updates.',printNote:'All checks are automatically expanded to full detail when printing — no need to open them first.',mn1:'Pregnancy',mn2:'Newborn',mn3:'Infant',mn4:'Toddler',mn5:'Preschooler',mn6:'School-Age',mn7:'Teenager',mn8:'Young Adult',mn9:'Adult',mn10:'Middle-Aged Adult',mn11:'Active Seniors',mn12:'Advanced Age',mn13:'90+ and Longevity',
+manualBody:'<h4>🚀 Getting started</h4><p>84 checks in 8 zones. Tap any check to see Who / What / Where / Why / How, exact measurements and standards, a real-world example and a quick-win tip.</p><h4>✅ Progress</h4><p>Tick the box to complete a check — bars and counters update instantly. Each zone has Mark All / Unmark All and Expand / Collapse All buttons, and the floating ↑ ↓ arrows jump between checks.</p><h4>🔍 Search &amp; filters</h4><p>The search box filters all 84 checks live across every zone. Tap a risk pill (Critical / High / Medium / Low) to filter by risk level; tap again to clear.</p><h4>🎨 Personalise</h4><p>Pick a colour theme and light or dark mode — remembered on this device. Make the cheat sheet yours: add your own emergency numbers and notes.</p><h4>💾 Save &amp; 🖨️ Print</h4><p>Progress saves automatically on this device as you go. To move your progress to another device or keep a backup, tap 💾 Save — this downloads a small file. On the new device (or after clearing your browser), open the same checklist, tap 📂 Load, and choose that file to restore your progress exactly where you left off. Keep the file somewhere safe, like your email or a notes app. Print the full checklist, one zone, or your personalised cheat sheet — all checks expand automatically when printing. Choose "Save as PDF" in the print dialog to create a PDF.</p>'}
+};
+
+// ═══════════════════════════════════════════
+// TRADEMARK ICON SET — same outline family as the whole collection
+// ═══════════════════════════════════════════
+const _svg = inner => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">' + inner + '</svg>';
+const ICONS = {
+  stage: _svg('<circle cx="8.5" cy="5" r="2.1"/><path d="M8.5 7.1c-1.2.4-2 1.5-2 2.8v1.8"/><path d="M8.7 9.6c3.4 0 5.8 2.5 5.8 5.7 0 2.2-1.2 3.9-3 4.9"/><path d="M6.5 11.7v3.4c0 2.2 1 3.9 2.7 5"/>'),
+  z1: _svg('<path d="M12 21v-8"/><path d="M12 13c0-3.5-2.5-6-6-6 0 3.5 2.5 6 6 6z"/><path d="M12 13c0-3.5 2.5-6 6-6 0 3.5-2.5 6-6 6z"/>'),
+  z2: _svg('<path d="M3 12c2-4 4-4 6 0s4 4 6 0 4-4 6 0"/>'),
+  z3: _svg('<circle cx="12" cy="8" r="3.4"/><path d="M4 14c0 3 3.6 5 8 5s8-2 8-5"/><path d="M4 14c0-1 .8-1.6 1.8-1.6M20 14c0-1-.8-1.6-1.8-1.6"/>'),
+  z4: _svg('<path d="M10 3h4"/><path d="M11 3v4.2L7.3 15a2 2 0 0 0 1.8 2.8h5.8a2 2 0 0 0 1.8-2.8L13 7.2V3"/><path d="M8.5 13h7"/>'),
+  z5: _svg('<circle cx="12" cy="4.3" r="1.8"/><path d="M12 6.3v4.5l-3.2 3.6M12 10.8l3.4 3"/><path d="M12 10.8l-2 6.4M12 10.8l2.4 6.4"/>'),
+  z6: _svg('<path d="M17.6 3.4a4.4 4.4 0 1 0 2.9 7 5.4 5.4 0 0 1-2.9-7z"/><path d="M3 18v-3a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v3"/><path d="M2 18h14"/>'),
+  z7: _svg('<path d="M12 15.5C7.8 12.4 5.8 9.9 5.8 7.3a3.3 3.3 0 0 1 6.2-1.5 3.3 3.3 0 0 1 6.2 1.5c0 2.6-2 5.1-6.2 8.2z"/><path d="M9 19.5c0-1 .8-1.8 1.8-1.8h2.4c1 0 1.8.8 1.8 1.8"/>'),
+  z8: _svg('<path d="M4 20V8.5M20 20V8.5"/><path d="M4 8.5h16"/><path d="M6 8.5V6a1.6 1.6 0 0 1 1.6-1.6h8.8A1.6 1.6 0 0 1 18 6v2.5"/><path d="M4 20h16"/>'),
+  stages: [
+    _svg('<circle cx="12" cy="13" r="6.5"/><path d="M12 6.5c0-1.8.8-2.7 2.3-3"/><circle cx="9.7" cy="12.2" r="0.65" fill="currentColor" stroke="none"/><circle cx="14.3" cy="12.2" r="0.65" fill="currentColor" stroke="none"/><path d="M9.9 15c1.4 1.2 2.8 1.2 4.2 0"/>'),
+    _svg('<circle cx="12" cy="7" r="3.2"/><path d="M6.8 20.5v-3.2a5.2 5.2 0 0 1 10.4 0v3.2"/>'),
+    _svg('<path d="M12 3.5l2.5 5.2 5.7.8-4.1 4 1 5.7-5.1-2.7-5.1 2.7 1-5.7-4.1-4 5.7-.8z"/>'),
+    _svg('<rect x="6.5" y="8" width="11" height="12" rx="3"/><path d="M9.5 8V6.2a2.5 2.5 0 0 1 5 0V8"/><rect x="9.7" y="13" width="4.6" height="4" rx="1"/><path d="M6.5 11.5h11"/>'),
+    _svg('<path d="M5 15v-1.5a7 7 0 0 1 14 0V15"/><rect x="4" y="14" width="3.4" height="6" rx="1.6"/><rect x="16.6" y="14" width="3.4" height="6" rx="1.6"/>'),
+    _svg('<path d="M12 4.5L2.8 9l9.2 4.5L21.2 9z"/><path d="M6.8 11.5v3.8c0 1.6 10.4 1.6 10.4 0v-3.8"/><path d="M21.2 9v5"/>'),
+    _svg('<rect x="3.8" y="8" width="16.4" height="11.2" rx="2"/><path d="M9.5 8V6.6A1.6 1.6 0 0 1 11.1 5h1.8a1.6 1.6 0 0 1 1.6 1.6V8M3.8 12.8h16.4"/>'),
+    _svg('<path d="M8.5 9.5v-4c2.3 1.8 4.7 1.8 7 0v4a3.5 3.5 0 0 1-7 0z"/><path d="M12 13v8M12 18c-1.8-.4-3-1.4-3.6-3"/>'),
+    _svg('<circle cx="8.5" cy="5" r="2.1"/><path d="M8.5 7.1c-1.2.4-2 1.5-2 2.8v1.8"/><path d="M8.7 9.6c3.4 0 5.8 2.5 5.8 5.7 0 2.2-1.2 3.9-3 4.9"/><path d="M6.5 11.7v3.4c0 2.2 1 3.9 2.7 5"/>')
+  ]
+};
+function injectIcons(){
+  document.getElementById('logo-icon').innerHTML = ICONS.stage;
+  document.getElementById('hero-icon').innerHTML = ICONS.stage;
+  document.querySelectorAll('.zic[data-zi]').forEach(el=>{ el.innerHTML = ICONS[el.dataset.zi] || ''; });
+}
+// ═══════════════════════════════════════════
+// ALL 84 CHECKS — PREGNANCY (STAGE 0)
+// ═══════════════════════════════════════════
+const ZONES = [
+  {
+    id: 1, name: 'First Trimester', icon: '🌱',
+    desc: '11 checks covering early warning signs, exposure and medication safety, folic acid, food safety, exercise, and alcohol/smoking/caffeine awareness.',
+    checks: [
+      { id:'pg01', num:'PG01', risk:'critical', title:'Early Pregnancy Warning Signs — Know What to Watch For',
+        who:'Anyone in the first 12 weeks of pregnancy',
+        what:'Not recognising the difference between common early-pregnancy discomfort and warning signs that need urgent assessment',
+        where:'Anywhere, at any time of day or night',
+        why:'Most early pregnancies progress normally, but a small number involve complications such as ectopic pregnancy or early miscarriage that need prompt assessment. Recognising red-flag symptoms early — not diagnosing them yourself — is what protects you.',
+        how:'Learn the short list of symptoms that always warrant an urgent call to your midwife, doctor, or maternity unit: heavy vaginal bleeding (soaking a pad an hour or more), severe one-sided abdominal pain, pain in the tip of the shoulder, fainting or feeling faint with pain, or a high fever. Save your maternity unit\'s number in your cheat sheet so it is ready before you need it.',
+        measurement:'Recognition-only framing per WHO and NICE early-pregnancy guidance — any of the above signs warrants same-day professional assessment, not self-diagnosis.',
+        example:'A woman at 7 weeks pregnant has sudden one-sided lower abdominal pain and feels light-headed standing up. She calls her maternity unit immediately rather than waiting to see if it passes — same-day assessment rules out anything serious.',
+        tip:'Write the red-flag list on your cheat sheet notes now, while you are calm — it is much harder to remember clearly if something is actually happening.' },
+
+      { id:'pg02', num:'PG02', risk:'high', title:'Workplace, Chemical & Radiation Exposure Awareness',
+        who:'Pregnant workers, especially in roles involving chemicals, radiation, heavy lifting, or extended standing',
+        what:'Continuing an exposure at work without checking whether it needs adjusting for pregnancy',
+        where:'Any workplace with chemical handling, X-ray/radiation equipment, extreme temperatures, or heavy manual tasks',
+        why:'Some occupational exposures carry a higher theoretical risk in pregnancy. Health and safety guidance recommends a pregnancy-specific risk assessment as soon as a workplace is told, not a personal guess.',
+        how:'Tell your employer or occupational health provider as soon as you are comfortable doing so, and ask for a written pregnancy risk assessment covering chemicals, radiation, lifting limits, and rest breaks. Ask your doctor or midwife about any specific exposure you are unsure of.',
+        measurement:'Occupational risk assessment for pregnant workers is standard international HSE practice; specific exposure thresholds should always be confirmed with occupational health or your doctor — never self-assessed.',
+        example:'A laboratory technician tells her supervisor she is pregnant at 9 weeks. Occupational health reassigns her away from a specific reagent for the remainder of the pregnancy and adjusts her standing time.',
+        tip:'You do not have to have all the answers before you ask — "can we check this is safe" is a complete and reasonable request.' },
+
+      { id:'pg03', num:'PG03', risk:'high', title:'Medication Safety — Always Check Before You Take Anything',
+        who:'Anyone pregnant or trying to conceive',
+        what:'Taking over-the-counter medicine, herbal remedies, or a leftover prescription without checking it is pregnancy-safe',
+        where:'Home, work, travelling — anywhere medication decisions get made',
+        why:'Many medicines are well studied and safe in pregnancy, and some common ones are not recommended at certain stages. This is a "check first" habit, not a memorised list — the right answer can change depending on how many weeks pregnant you are.',
+        how:'Before taking anything — including pain relief, cold remedies, herbal supplements, or a repeat prescription — check with your pharmacist, doctor, or midwife first. Tell every prescriber you see that you are pregnant, including dentists.',
+        measurement:'WHO and NICE guidance: medication decisions in pregnancy are individualised and should always be confirmed with a pharmacist or prescriber — no medicine should be assumed safe or unsafe without checking.',
+        example:'A woman with a headache at 10 weeks pregnant calls her pharmacist before taking anything from her cabinet, rather than assuming her usual tablet is fine.',
+        tip:'Keep your pharmacist\'s or midwife\'s contact saved in your cheat sheet so "let me just check" takes seconds, not an afternoon.' },
+
+      { id:'pg04', num:'PG04', risk:'medium', title:'Folic Acid & Prenatal Vitamin Timing',
+        who:'Anyone pregnant or planning pregnancy',
+        what:'Starting or stopping key supplements at the wrong time, or being unsure what to take',
+        where:'Home — part of a daily routine',
+        why:'Folic acid taken before conception and through the first 12 weeks is linked to a lower risk of certain birth defects. Vitamin D is recommended throughout pregnancy in many international guidelines. Getting the timing right matters more than getting it perfect.',
+        how:'Start (or continue) a folic acid supplement as early as possible, ideally before conception, and through at least the first 12 weeks. Ask your midwife or doctor about vitamin D and whether any other supplement is recommended for you specifically.',
+        measurement:'WHO antenatal care guideline: daily folic acid supplementation recommended from before conception through the first trimester; individual dosing confirmed by your doctor or midwife.',
+        example:'A woman finds out she is 5 weeks pregnant and starts a folic acid supplement that day, and mentions it at her first booking appointment so her midwife can advise on the rest of her first trimester.',
+        tip:'Keep the supplement bottle next to your toothbrush — pairing it with an existing habit is the easiest way to remember daily.' },
+
+      { id:'pg05', num:'PG05', risk:'high', title:'Food Safety — Listeria, Toxoplasmosis & High-Risk Foods',
+        who:'Anyone pregnant, at any stage',
+        what:'Eating foods that carry a higher risk of infections such as listeria or toxoplasmosis during pregnancy',
+        where:'Kitchen, restaurants, any food preparation or eating environment',
+        why:'Pregnancy changes how the immune system responds to certain food-borne infections. Some organisms that are a minor risk otherwise can affect a pregnancy. This is about recognising which food categories carry that higher risk, not about fear of food generally.',
+        how:'Be aware of higher-risk categories: unpasteurised dairy and soft ripened cheeses, raw or undercooked eggs and meat, pre-prepared chilled foods and pâtés, and unwashed raw produce. Wash fruit and vegetables thoroughly, cook meat and eggs through, and check labels for pasteurisation.',
+        measurement:'WHO and NICE pregnancy nutrition guidance identify unpasteurised dairy, undercooked meat/eggs, and certain chilled ready-to-eat foods as higher-risk categories in pregnancy.',
+        example:'At a gathering, a pregnant guest chooses the hard cheese and well-cooked dishes over a soft ripened cheese and a pâté, without needing to explain why.',
+        tip:'When eating out, "well done" and "pasteurised" are your two easiest questions to ask.' },
+
+      { id:'pg06', num:'PG06', risk:'medium', title:'Safe Exercise in Early Pregnancy',
+        who:'Anyone pregnant with an uncomplicated, low-risk pregnancy',
+        what:'Being unsure whether it is safe to continue or start exercise in the first trimester',
+        where:'Gym, home, outdoors — wherever you already exercise',
+        why:'For most uncomplicated pregnancies, staying active is encouraged and linked to better outcomes. The first trimester is generally a safe time to continue moderate activity, with a few sensible adjustments.',
+        how:'Continue moderate activity you already do (walking, swimming, low-impact cardio), avoid new high-risk or contact sports, stay well hydrated, and stop and seek advice if you notice pain, bleeding, dizziness, or unusual breathlessness. Ask your midwife or doctor before starting anything new.',
+        measurement:'WHO physical activity guidance: at least 150 minutes of moderate activity per week is generally supported in uncomplicated pregnancy, individualised by your doctor or midwife.',
+        example:'A woman who runs regularly continues shorter, easier runs in her first trimester and swaps a planned contact-sport class for swimming instead.',
+        tip:'If in doubt, "can I keep doing this" is a two-minute question for your midwife — far easier than guessing.' },
+
+      { id:'pg07', num:'PG07', risk:'high', title:'Alcohol, Smoking & Caffeine — General Safety Awareness',
+        who:'Anyone pregnant or planning pregnancy',
+        what:'Uncertainty about alcohol, smoking, and caffeine limits in pregnancy',
+        where:'Home, social settings, work',
+        why:'International guidance is consistent that there is no known safe level of alcohol in pregnancy, and that smoking (including secondhand smoke) carries recognised risks. Caffeine is generally advised to be limited rather than eliminated.',
+        how:'The safest approach is no alcohol and no smoking during pregnancy; ask your doctor or a smoking-cessation service for support if you smoke. Limit caffeine from all sources (coffee, tea, cola, chocolate) rather than tracking one source alone, and ask your midwife what a sensible daily limit looks like for you.',
+        measurement:'WHO guidance: no alcohol is the safest choice in pregnancy; NICE guidance recommends limiting total caffeine intake and offers support for stopping smoking at any stage of pregnancy.',
+        example:'A woman who previously had a daily coffee habit switches part of it to decaffeinated and asks her midwife to confirm her new daily total is a sensible one.',
+        tip:'Support to stop smoking works better than willpower alone — ask your midwife or doctor about local support at your very next appointment.' },
+
+      { id:'pg08', num:'PG08', risk:'medium', title:'Booking In Early With Your Midwife or Doctor',
+        who:'Anyone who has just found out they are pregnant',
+        what:'Delaying the first prenatal (booking) appointment',
+        where:'Your usual midwifery, obstetric, or general medical service',
+        why:'The first appointment sets your dating, screens for anything that needs early attention, and opens the door to all your later antenatal care. Booking early means more time for any extra support to be arranged if needed.',
+        how:'Contact your midwife, doctor, or maternity service as soon as you have a positive test, ideally so your first appointment happens by around 10 weeks. Bring a list of any medications, allergies, and past pregnancy history.',
+        measurement:'WHO and NICE antenatal care models recommend an early first contact, ideally by around 10 weeks, followed by a structured schedule of further visits.',
+        example:'A woman gets a positive result on a home test on a Tuesday and calls her local maternity service the same week to arrange her booking appointment rather than waiting until she "feels" pregnant.',
+        tip:'Save your maternity unit\'s booking line in your cheat sheet now — future you will thank present you.' },
+
+      { id:'pg09', num:'PG09', risk:'low', title:'Fatigue & Rest in Early Pregnancy',
+        who:'Anyone in the first trimester',
+        what:'Pushing through extreme tiredness instead of adjusting rest and workload',
+        where:'Home and work',
+        why:'Profound fatigue is one of the most common early-pregnancy experiences, driven by significant hormonal change. It is not a sign of weakness and usually eases by the second trimester.',
+        how:'Allow yourself more rest than usual, go to bed earlier where you can, ask for flexibility at work if fatigue is affecting your day, and mention persistent extreme exhaustion to your midwife so other causes can be considered.',
+        measurement:'Recognition-only: NICE guidance notes fatigue as a common first-trimester symptom that generally improves by the second trimester; persistent extreme fatigue should be discussed with your doctor or midwife.',
+        example:'A woman who is normally a night owl starts going to bed an hour earlier through her first trimester and asks her manager for a later start time twice a week.',
+        tip:'Naps are not a luxury right now — they are part of the job of growing a baby.' },
+
+      { id:'pg10', num:'PG10', risk:'low', title:'Staying Hydrated Through Early Pregnancy',
+        who:'Anyone pregnant, especially those with nausea or vomiting',
+        what:'Under-drinking because nausea makes fluids unappealing',
+        where:'Home, work, anywhere you spend your day',
+        why:'Adequate hydration supports blood volume changes in pregnancy and can ease some early symptoms such as headaches and dizziness. Vomiting increases fluid needs further.',
+        how:'Sip small amounts often rather than large amounts rarely if nausea is a problem. Try cold, still, or flavoured water if plain water feels unappealing, and contact your midwife or doctor if you cannot keep any fluids down for 24 hours.',
+        measurement:'General hydration guidance: aim for pale straw-coloured urine as a simple day-to-day marker; persistent inability to keep fluids down warrants same-day medical advice (possible hyperemesis gravidarum, per NICE guidance).',
+        example:'A woman who feels sick at the smell of plain water starts keeping a bottle of chilled, lightly flavoured water by her bed and desk instead.',
+        tip:'A reusable bottle with time markers on the side makes "little and often" effortless to track.' },
+
+      { id:'pg11', num:'PG11', risk:'low', title:'Safe, Comfortable Positions for Nausea Relief',
+        who:'Anyone experiencing morning sickness in early pregnancy',
+        what:'Not knowing which positions and routines can ease nausea safely',
+        where:'Bed, kitchen, car, workplace',
+        why:'Nausea is extremely common in the first trimester and, while rarely dangerous itself, can be exhausting. Simple positional and timing adjustments can meaningfully reduce it for many people.',
+        how:'Eat small, frequent, plain snacks before rising and through the day rather than large meals; avoid lying flat right after eating; get fresh air and avoid strong food smells and stuffy rooms where possible. Ask your midwife about safe anti-nausea options if it is severe.',
+        measurement:'Recognition-only: NICE guidance supports dietary and lifestyle adjustment as first-line for pregnancy nausea, with medical review if vomiting is severe or persistent (hyperemesis gravidarum).',
+        example:'A woman keeps plain crackers on her nightstand and eats a few before getting fully upright in the morning, which noticeably reduces her nausea.',
+        tip:'Small and often beats "three square meals" for the whole first trimester — give yourself permission to graze.' }
+    ]
+  },
+  {
+    id: 2, name: 'Second Trimester', icon: '📅',
+    desc: '11 checks covering the anatomy scan, posture and ergonomics, exercise modifications, safe travel, round ligament pain, safe sleep positioning, footwear and dental health.',
+    checks: [
+      { id:'pg12', num:'PG12', risk:'medium', title:'The Anatomy Scan — What It Is and Why It Matters',
+        who:'Anyone pregnant, typically between 18 and 22 weeks',
+        what:'Not knowing what the mid-pregnancy anatomy scan is for, or missing the appointment window',
+        where:'Your maternity ultrasound service',
+        why:'The mid-pregnancy scan checks growth and looks at the baby\'s anatomy in detail. It is a screening tool, not a guarantee of a particular outcome, and understanding that helps set realistic expectations.',
+        how:'Book your anatomy scan in the recommended window (commonly 18-22 weeks internationally), bring a support person if you would like one, and ask your sonographer or midwife to explain any findings in plain language before you leave.',
+        measurement:'WHO and NICE antenatal care guidance recommend a routine detailed ultrasound around 18-22 weeks; the exact schedule is confirmed by your local maternity provider.',
+        example:'A woman books her 20-week scan as soon as her midwife suggests the window, and writes down two questions she wants to ask beforehand.',
+        tip:'It is completely reasonable to ask the sonographer to pause and explain anything you do not understand, in the moment.' },
+
+      { id:'pg13', num:'PG13', risk:'medium', title:'Posture & Centre-of-Gravity Changes',
+        who:'Anyone pregnant, from mid-pregnancy onward',
+        what:'Not adjusting posture as the growing bump shifts your centre of gravity',
+        where:'Home, work, anywhere you stand, sit or walk',
+        why:'As the uterus grows, your centre of gravity moves forward, changing balance and increasing strain on the lower back. Postural awareness reduces both back pain and fall risk.',
+        how:'Stand with weight evenly through both feet, avoid prolonged standing without breaks, use a supportive chair with lower-back support when sitting, and avoid overreaching or twisting through the spine.',
+        measurement:'General ergonomic guidance for pregnancy (aligned with international occupational health practice): frequent position changes and lower-back support are recommended from the second trimester as the bump grows.',
+        example:'A woman who works at a checkout starts using a footrest and a lumbar cushion in her second trimester and takes a short walk break every hour.',
+        tip:'A simple lumbar cushion is one of the cheapest comfort upgrades of the whole pregnancy.' },
+
+      { id:'pg14', num:'PG14', risk:'medium', title:'Exercise Modifications as the Bump Grows',
+        who:'Anyone pregnant, second trimester onward',
+        what:'Continuing exercise without adjusting for a growing bump and shifting balance',
+        where:'Gym, home, outdoors',
+        why:'As pregnancy progresses, balance changes and lying flat on your back for extended periods can affect blood flow. Certain adjustments keep exercise both effective and safer.',
+        how:'Avoid exercises that involve lying flat on your back for long periods after mid-pregnancy, avoid activities with a high fall or contact risk, and switch to more stable, lower-impact options as balance changes. Ask your midwife or doctor before continuing high-intensity training.',
+        measurement:'WHO and NICE physical-activity-in-pregnancy guidance recommend avoiding prolonged supine positions and high fall-risk activity from the second trimester, individualised with your doctor or midwife.',
+        example:'A woman modifies her home workout to a side-lying or inclined position instead of flat sit-ups once she reaches the second trimester.',
+        tip:'A prenatal exercise class (in person or online) takes the guesswork out of which moves to modify and when.' },
+
+      { id:'pg15', num:'PG15', risk:'high', title:'Safe Travel — Car & Air Travel, Seatbelt Positioning',
+        who:'Anyone pregnant who is travelling by car or air',
+        what:'Incorrect seatbelt positioning or travelling without checking airline pregnancy policies',
+        where:'Car, aircraft',
+        why:'A correctly positioned seatbelt protects both you and the pregnancy far better than an incorrectly positioned one or none at all. Most airlines have pregnancy-related travel policies that change by trimester.',
+        how:'Always wear the seatbelt with the lap strap under the bump, across the hips, and the diagonal strap between the breasts, never across the bump. For flights, check the airline\'s pregnancy travel policy for your stage and take regular breaks to move your legs on longer journeys.',
+        measurement:'International road-safety and antenatal guidance: lap belt below the bump, diagonal strap between the breasts, for the whole of pregnancy — never remove or loosen the belt.',
+        example:'A woman adjusts her car seatbelt so the lap strap sits low across her hip bones rather than her bump before every journey, out of habit.',
+        tip:'If a seatbelt genuinely will not sit correctly, a pregnancy seatbelt positioner (checked with your car\'s manual) can help — never travel unbelted.' },
+
+      { id:'pg16', num:'PG16', risk:'medium', title:'Workplace Ergonomics — Desk Setup & Standing Breaks',
+        who:'Pregnant workers with desk-based or standing jobs',
+        what:'A workstation or shift pattern that has not been adjusted for a growing pregnancy',
+        where:'Workplace',
+        why:'Prolonged sitting or standing without breaks increases discomfort, swelling, and fatigue in pregnancy. Small ergonomic changes reduce strain considerably.',
+        how:'Ask for a proper chair with lower-back support, position your screen at eye level, and take a short walk or stretch break at least every hour. If your role is largely standing, ask about seated tasks or breaks being built into your shift.',
+        measurement:'International occupational health guidance for pregnant workers recommends regular position changes and ergonomic review, formalised in a written workplace risk assessment.',
+        example:'A pregnant office worker sets a phone reminder to stand and stretch every hour and asks facilities for a footrest and lumbar cushion.',
+        tip:'Ask occupational health for a written ergonomic assessment — it is a normal, expected request, not a special favour.' },
+
+      { id:'pg17', num:'PG17', risk:'high', title:'Round Ligament Pain vs Concerning Abdominal Pain',
+        who:'Anyone pregnant, from the second trimester onward',
+        what:'Confusing normal stretching pain with pain that needs assessment',
+        where:'Anywhere',
+        why:'Round ligament pain — a sharp, brief pain at the side of the bump, often with movement — is a common and normally harmless part of the uterus growing. Different, more serious pain patterns need prompt attention.',
+        how:'Round ligament pain typically comes on with sudden movement, is brief, and eases with rest or gentle stretching. Contact your midwife or doctor promptly for pain that is severe, constant, one-sided with fever, or accompanied by bleeding, contractions, or feeling unwell.',
+        measurement:'Recognition-only per NICE guidance: brief, movement-related side pain is typically round ligament pain; persistent, severe, or accompanying pain (with fever, bleeding, or feeling unwell) needs same-day assessment.',
+        example:'A woman feels a brief sharp twinge on one side when she stands up quickly, which settles within a minute — she notes it is different from a dull, constant pain she had a week earlier that she called her midwife about.',
+        tip:'When in doubt about any pain, call and describe it rather than trying to diagnose it yourself — that is exactly what the phone line is there for.' },
+
+      { id:'pg18', num:'PG18', risk:'low', title:'Skin Changes & Stretch Marks — General Care',
+        who:'Anyone pregnant',
+        what:'Uncertainty about normal skin changes in pregnancy',
+        where:'Home',
+        why:'Stretched skin, pigment changes, and itching are all common in pregnancy as the body grows and hormones shift. Most are harmless, though some itching patterns need checking.',
+        how:'Moisturise regularly for comfort (this does not prevent stretch marks, which are largely determined by skin type and genetics), wear breathable fabrics, and mention any intense, widespread itching — especially on the palms and soles — to your midwife or doctor, as this can occasionally signal a condition needing review.',
+        measurement:'Recognition-only per NICE guidance: widespread itching, particularly of the palms and soles, especially in the third trimester, should always be reported to your maternity provider (possible intrahepatic cholestasis of pregnancy).',
+        example:'A woman moisturises daily for comfort and mentions unusually intense palm itching at her next appointment rather than assuming it is "just" dry skin.',
+        tip:'Comfort, not prevention, is the honest goal of any pregnancy skincare routine — be kind to yourself about stretch marks.' },
+
+      { id:'pg19', num:'PG19', risk:'medium', title:'Keeping Up the Antenatal Appointment Rhythm',
+        who:'Anyone pregnant, second trimester onward',
+        what:'Missing or delaying scheduled antenatal appointments',
+        where:'Your maternity or antenatal care provider',
+        why:'Each antenatal visit checks blood pressure, urine, growth, and wellbeing — patterns that are much easier to catch early than late. Consistent attendance is one of the simplest ways to catch anything before it becomes urgent.',
+        how:'Keep every scheduled appointment, write questions down beforehand so you do not forget them, and reschedule promptly rather than skipping if something comes up.',
+        measurement:'WHO antenatal care model recommends a minimum of eight contacts across pregnancy; your specific schedule is set by your maternity provider based on your individual needs.',
+        example:'A woman keeps a running note on her phone of questions between appointments so she never arrives with an empty mind.',
+        tip:'Book your next appointment before you leave the current one — it is one less thing to remember later.' },
+
+      { id:'pg20', num:'PG20', risk:'high', title:'Introducing Safe Sleep Positioning',
+        who:'Anyone pregnant, from mid-second trimester onward',
+        what:'Continuing to sleep flat on the back as the bump grows',
+        where:'Bed, or anywhere you rest lying down',
+        why:'From around mid-pregnancy, lying flat on the back for extended periods can compress major blood vessels and reduce blood flow. Side sleeping, especially on the left, is the internationally recommended position from this stage.',
+        how:'Begin favouring side sleeping, using a pillow between the knees and another behind the back for support. If you wake on your back, simply resettle onto your side — it is the sustained position, not a brief moment, that matters.',
+        measurement:'International antenatal safe-sleep guidance recommends side sleeping from around 28 weeks; introducing the habit from mid-pregnancy makes the transition easier.',
+        example:'A woman starts using a pregnancy pillow between her knees in her second trimester so side sleeping becomes her natural default well before her third trimester.',
+        tip:'Waking on your back is not a failure — just resettle onto your side and go back to sleep.' },
+
+      { id:'pg21', num:'PG21', risk:'medium', title:'Footwear & Balance as Your Body Changes',
+        who:'Anyone pregnant, second trimester onward',
+        what:'Wearing unstable or unsupportive footwear as balance and foot size change',
+        where:'Home, work, outdoors',
+        why:'Loosening ligaments and a shifting centre of gravity change balance through pregnancy, and feet often swell or spread slightly in size. The right footwear meaningfully reduces trip and fall risk.',
+        how:'Choose flat or low, wide-based, supportive shoes with good grip, and replace footwear that has become tight rather than pushing through discomfort. Avoid unstable heels or worn, slippery soles.',
+        measurement:'General falls-prevention guidance (consistent across the SafeLife Collection): low, wide-based, supportive footwear reduces trip and fall risk when balance changes.',
+        example:'A woman who used to wear heeled boots daily switches to a flat, supportive pair for her whole third trimester once her balance starts to feel different.',
+        tip:'If a shoe feels different to walk in than it did last month, trust that feeling and size up or swap it.' },
+
+      { id:'pg22', num:'PG22', risk:'medium', title:'Dental Health in Pregnancy',
+        who:'Anyone pregnant',
+        what:'Skipping dental care due to uncertainty about whether treatment is safe in pregnancy',
+        where:'Dental clinic, home',
+        why:'Hormonal changes in pregnancy can increase gum sensitivity and the risk of gum disease, and routine dental care remains both safe and important throughout pregnancy.',
+        how:'Keep regular dental check-ups, mention you are pregnant and how many weeks, and brush and floss consistently. Most dental treatment and local anaesthetic is considered safe in pregnancy — ask your dentist or doctor if a specific procedure is planned.',
+        measurement:'International dental and antenatal guidance: routine dental care is recommended and safe throughout pregnancy; inform your dentist of your pregnancy and any medications.',
+        example:'A woman books her routine six-month check-up as normal during her second trimester and mentions her pregnancy at the front desk.',
+        tip:'Bleeding gums are common in pregnancy — mention it at your next dental visit rather than assuming it will just pass.' }
+    ]
+  },
+  {
+    id: 3, name: 'Third Trimester', icon: '🤰',
+    desc: '11 checks covering labour signs, birth-plan logistics, hospital bag, home safety, swelling, reduced fetal movement, pre-eclampsia warning signs and final preparation.',
+    checks: [
+      { id:'pg23', num:'PG23', risk:'high', title:'Braxton Hicks vs True Labour — Recognising the Difference',
+        who:'Anyone in the third trimester',
+        what:'Confusing practice (Braxton Hicks) contractions with the onset of true labour',
+        where:'Anywhere',
+        why:'Braxton Hicks contractions are irregular practice tightenings that do not open the cervix; true labour contractions become regular, closer together, and increasingly intense. Recognising the pattern — not diagnosing it yourself — tells you when to call.',
+        how:'Braxton Hicks are usually irregular, do not increase in strength, and often ease with rest, movement, or hydration. Call your midwife or maternity unit if contractions become regular and increasingly close together, are increasingly painful, or if your waters break, whatever the timing.',
+        measurement:'NICE intrapartum care guidance: regular, strengthening contractions and/or ruptured membranes are the recognised signs to contact your maternity provider, at any time of day or night.',
+        example:'A woman at 36 weeks notices irregular tightenings that ease when she changes position and drinks water — she recognises this as practice contractions rather than labour, but keeps her maternity unit\'s number to hand regardless.',
+        tip:'When timing contractions, "regular and getting closer together" matters more than any single strong one — that is your cue to call.' },
+
+      { id:'pg24', num:'PG24', risk:'medium', title:'Birth Plan Logistics — Practical Preparation',
+        who:'Anyone in the third trimester',
+        what:'Leaving practical birth-day logistics unplanned until labour starts',
+        where:'Home, maternity unit',
+        why:'Clear, simple logistics — who to call, how to get there, who looks after other children or pets — reduce stress considerably in the moment labour begins.',
+        how:'Write down your preferred birth setting, your support person\'s contact details (saved in your cheat sheet), a backup transport plan, and who is on standby for any other children, pets, or dependants. Share the plan with your support person well in advance.',
+        measurement:'General maternity-service guidance: a written, shared birth-logistics plan is recommended from the third trimester as part of routine antenatal preparation.',
+        example:'A woman and her support person agree in week 34 exactly who they will call first, second, and third if labour starts at night, and write it down together.',
+        tip:'A plan you have actually talked through out loud works better under stress than one that only exists in your head.' },
+
+      { id:'pg25', num:'PG25', risk:'medium', title:'Hospital Bag Essentials',
+        who:'Anyone in the third trimester',
+        what:'Leaving hospital-bag packing until the last minute',
+        where:'Home',
+        why:'A packed bag ready from around 36 weeks means one less thing to think about if labour starts earlier than expected.',
+        how:'Pack general categories rather than exact brands: comfortable clothing for you and the baby, toiletries, phone charger, any regular medication, comfortable going-home clothes, and any documents your maternity provider has asked for. Pack a smaller bag for early labour and keep the rest ready to grab.',
+        measurement:'General maternity-preparation guidance recommends having a hospital bag ready from around 36 weeks, adjusted earlier for any known higher-risk factors discussed with your provider.',
+        example:'A woman packs her bag at 35 weeks after her midwife mentions that first babies can sometimes arrive a little early, and keeps it by the door from then on.',
+        tip:'Ask your maternity unit directly what they recommend bringing — it saves guessing and overpacking.' },
+
+      { id:'pg26', num:'PG26', risk:'medium', title:'Final Home Safety Checks Before Baby Arrives',
+        who:'Anyone in the third trimester',
+        what:'General home hazards that become more urgent to fix before a newborn and recovering parent are managing them together',
+        where:'Whole home',
+        why:'A short walkthrough now — smoke alarms, clear walkways, safe stair access — is far easier to do before labour than in the exhausted days immediately afterward.',
+        how:'Test smoke and carbon monoxide alarms, clear trip hazards from main walkways and stairs, check external door and window locks, and make sure a phone is easily reachable from the bed and the main living area.',
+        measurement:'General home-safety guidance (consistent across the SafeLife Collection): test smoke/CO alarms monthly; keep all walkways and stairs clear at all times.',
+        example:'A couple tests every smoke alarm in the house and clears a stack of boxes from the staircase in week 34, well before the due date.',
+        tip:'Do this walkthrough with your support person — two sets of eyes catch more than one.' },
+
+      { id:'pg27', num:'PG27', risk:'high', title:'Swelling (Oedema) — Normal vs When to Call',
+        who:'Anyone in the third trimester',
+        what:'Not knowing which swelling patterns are typical and which need same-day assessment',
+        where:'Anywhere, especially by the end of the day',
+        why:'Mild swelling of the feet and ankles by evening is common in later pregnancy. Sudden, severe, or facial swelling — especially with other symptoms — can be a sign of a condition needing urgent review.',
+        how:'Expect and manage mild ankle/foot swelling with rest, elevation, and supportive footwear. Call your midwife or doctor the same day for sudden or severe swelling, swelling of the face or hands, or swelling accompanied by headache, visual changes, or upper abdominal pain.',
+        measurement:'NICE guidance: mild dependent swelling is common in the third trimester; sudden, severe, or facial swelling combined with other symptoms warrants same-day assessment for possible pre-eclampsia.',
+        example:'A woman notices her ankles are puffier by evening after a long day on her feet and elevates them while resting — a week later, sudden facial swelling with a headache prompts her to call her midwife the same day.',
+        tip:'Keep a simple mental checklist: "is this my usual evening swelling, or is something different this time?"' },
+
+      { id:'pg28', num:'PG28', risk:'medium', title:'Safe Sitting & Sleeping Positions Late in Pregnancy',
+        who:'Anyone in the third trimester',
+        what:'Sitting or lying in positions that increase discomfort or reduce blood flow as the bump reaches full size',
+        where:'Bed, sofa, car, workplace',
+        why:'A full-term bump adds significant weight and pressure; supported positions reduce back pain, breathlessness, and pressure on major blood vessels.',
+        how:'Continue side sleeping with pillow support; when sitting, use back support and elevate your feet where possible; avoid long periods flat on your back, including for exercises or massages — ask the provider to angle the surface instead.',
+        measurement:'International antenatal safe-sleep and comfort guidance: side sleeping with supportive pillows remains the recommended position through the third trimester.',
+        example:'A woman asks her massage therapist to use a pregnancy-support table or side-lying position rather than lying flat for her third-trimester appointment.',
+        tip:'A wedge-shaped pillow behind the back turns almost any sofa into a supported side-lying seat.' },
+
+      { id:'pg29', num:'PG29', risk:'critical', title:'Reduced Fetal Movement — Always Call, Any Time',
+        who:'Anyone in the third trimester (and from whenever movements are first regularly felt)',
+        what:'Noticing the baby is moving less than usual, or a change in the normal pattern of movement',
+        where:'Anywhere, any time of day or night',
+        why:'A change in a baby\'s usual movement pattern is one of the clearest signals to seek same-day assessment. This is never something to wait out overnight or "see how it goes" — checking is always the right call, and it is never a bother to the maternity team.',
+        how:'Learn your own baby\'s usual pattern rather than counting to a fixed number. If movements feel reduced, slowed, or different from usual at any time, call your maternity unit immediately — do not wait until morning, and do not rely on a home doppler to reassure yourself instead of calling.',
+        measurement:'NICE-aligned international antenatal guidance: any reduction or change in fetal movement warrants immediate same-day (or same-hour) assessment by a maternity provider, regardless of time of day.',
+        example:'A woman notices her baby, usually very active in the evenings, has been unusually still for a few hours — she calls her maternity unit straight away rather than waiting until morning, and is seen and reassured within the hour.',
+        tip:'Save your maternity unit\'s direct line in your cheat sheet now — for this specific concern, calling is always the right choice, never an overreaction.' },
+
+      { id:'pg30', num:'PG30', risk:'critical', title:'Pre-eclampsia Warning Signs — Recognition Only',
+        who:'Anyone from around 20 weeks pregnant onward',
+        what:'Not recognising the combination of symptoms associated with pre-eclampsia',
+        where:'Anywhere',
+        why:'Pre-eclampsia is a pregnancy condition involving high blood pressure and other signs that can develop with few early symptoms, which is why routine blood pressure and urine checks matter, alongside knowing the warning signs yourself.',
+        how:'Learn the key warning signs: severe or persistent headache, visual disturbances (flashing lights, blurring), pain just below the ribs, sudden swelling of the face/hands, or feeling generally very unwell. Call your midwife, doctor, or maternity unit immediately if any of these occur — never wait to see if they pass.',
+        measurement:'WHO and NICE guidance: severe headache, visual disturbance, epigastric pain, sudden oedema, or feeling unwell alongside raised blood pressure warrant immediate assessment for possible pre-eclampsia.',
+        example:'A woman at 32 weeks develops a headache that does not ease with rest or her usual pain relief, along with some blurred vision — she calls her maternity unit straight away rather than waiting to see if it passes.',
+        tip:'Attending every blood pressure and urine check, even when you feel completely well, is exactly how this condition is usually caught early.' },
+
+      { id:'pg31', num:'PG31', risk:'high', title:'Safe Travel Restrictions Late in Pregnancy',
+        who:'Anyone in the third trimester',
+        what:'Travelling long distances without checking provider or airline guidance for late pregnancy',
+        where:'Car, aircraft, long-distance travel generally',
+        why:'Many airlines restrict travel from around 36 weeks (earlier for multiple pregnancies), and long journeys of any kind late in pregnancy carry practical considerations worth planning for.',
+        how:'Check your airline\'s specific pregnancy travel policy well before booking, carry your maternity notes if travelling, and take regular movement breaks on any long car or plane journey. Confirm with your midwife or doctor before any long-distance travel from the third trimester.',
+        measurement:'Common international airline pregnancy-travel restrictions apply from around 36 weeks (28-32 weeks for multiples) — confirm exact policy with the airline and your maternity provider before booking.',
+        example:'A woman due in 6 weeks checks her airline\'s policy before booking a work trip and confirms with her midwife that travel is still appropriate for her specific pregnancy.',
+        tip:'Always carry a copy of your maternity notes when travelling in the third trimester, wherever you go.' },
+
+      { id:'pg32', num:'PG32', risk:'medium', title:'Perineal & Postpartum Preparation Basics',
+        who:'Anyone in the third trimester',
+        what:'Arriving at the birth with no idea what physical recovery afterward typically involves',
+        where:'Home, antenatal classes',
+        why:'Understanding what is a normal part of physical recovery after birth — for any type of birth — reduces anxiety and helps you recognise if something later feels outside the ordinary range.',
+        how:'Ask your midwife about perineal care and recovery expectations for your specific birth plan, consider antenatal perineal massage if recommended for you, and pack simple postpartum comfort items (loose clothing, appropriate pads) in your hospital bag.',
+        measurement:'NICE postnatal care guidance: perineal and general postpartum recovery information is a standard part of third-trimester antenatal education.',
+        example:'A woman asks her midwife what to expect for the first week of recovery at her 36-week appointment, so she knows roughly what is normal versus what to flag.',
+        tip:'Ask "what is normal for the first week" and "what would make you call me" as two separate, equally useful questions.' },
+
+      { id:'pg33', num:'PG33', risk:'medium', title:'Finalising Your Support-Person & Emergency Contact Plan',
+        who:'Anyone in the third trimester',
+        what:'Not having a clear, written plan for who to call and who supports whom around the birth',
+        where:'Home',
+        why:'A clear, written plan removes decision-making pressure from the most stressful possible moment to be making decisions.',
+        how:'Confirm who your primary support person is, agree a backup if they are unreachable, and add your maternity unit, doctor, and any other key contacts to your cheat sheet now, while things are calm.',
+        measurement:'General maternity-preparation guidance: a documented support and emergency-contact plan is recommended as standard third-trimester preparation.',
+        example:'A woman and her partner fill in every row of the emergency contacts section on their cheat sheet together at 34 weeks, including a backup name in case her partner is travelling.',
+        tip:'A plan written down and agreed together in advance beats a plan improvised in the moment, every time.' }
+    ]
+  },
+  {
+    id: 4, name: 'Home & Chemical Safety', icon: '🧴',
+    desc: '10 checks covering cleaning products, paint and renovation fumes, pest control, gardening, ventilation, cat litter, heat exposure and safe chemical storage.',
+    checks: [
+      { id:'pg34', num:'PG34', risk:'high', title:'Cleaning Product Ventilation & Category Awareness',
+        who:'Anyone pregnant doing household cleaning',
+        what:'Using strong cleaning chemicals in poorly ventilated spaces, or mixing product categories',
+        where:'Kitchen, bathroom, laundry',
+        why:'Some cleaning chemical fumes are more likely to cause irritation or discomfort in pregnancy, and mixing certain product categories (like bleach and ammonia-based products) creates genuinely dangerous fumes for anyone.',
+        how:'Open windows and ventilate well when cleaning, avoid mixing different chemical categories, wear gloves, and ask a partner or household member to handle particularly strong products (oven cleaners, heavy-duty descalers) where possible.',
+        measurement:'General household chemical-safety guidance (consistent across the SafeLife Collection): ventilate during use, never mix chemical categories, store away from food-preparation areas.',
+        example:'A woman asks her partner to handle the oven-cleaning task this month and opens every window while doing lighter cleaning herself.',
+        tip:'If a fume makes you cough or feel light-headed, that is your cue to leave the room and ventilate, pregnant or not.' },
+
+      { id:'pg35', num:'PG35', risk:'high', title:'Paint & Renovation Fume Avoidance',
+        who:'Anyone pregnant considering home renovation or redecorating',
+        what:'Spending time in freshly painted or renovated spaces with poor ventilation',
+        where:'Any room being painted, renovated, or refurbished',
+        why:'Fresh paint and renovation materials can release fumes for some time after application, and it is sensible to reduce exposure and physical exertion during pregnancy where practical.',
+        how:'Choose low-emission paint where possible, ensure thorough ventilation, avoid being in the room during application and for a period afterward, and avoid renovation-related heavy lifting or strong solvent use yourself.',
+        measurement:'General household air-quality guidance: ventilate freshly painted/renovated rooms thoroughly and limit occupancy during and shortly after application, particularly in pregnancy.',
+        example:'A couple plans the nursery repaint for a weekend when the mother-to-be stays elsewhere, and leaves the windows open for several days afterward before she spends time in the room.',
+        tip:'If a renovation project can wait until after the baby arrives, that is often the simplest safety decision of all.' },
+
+      { id:'pg36', num:'PG36', risk:'high', title:'Pest Control Chemical Avoidance',
+        who:'Anyone pregnant in a home undergoing pest treatment',
+        what:'Being present during or shortly after chemical pest-control treatment',
+        where:'Home, garden',
+        why:'Some pest-control chemicals are best avoided or minimised during pregnancy, and manufacturer/professional guidance on re-entry timing exists precisely to reduce exposure for anyone.',
+        how:'Ask any pest-control professional whether the product used has specific guidance for pregnancy, follow re-entry time recommendations exactly, and ventilate the treated area well before returning.',
+        measurement:'Follow product-specific and professional pest-control guidance for pregnancy exposure and re-entry timing; when unsure, ask your doctor or the pest-control provider directly.',
+        example:'A woman arranges to stay elsewhere for the recommended re-entry period after a professional pest treatment, rather than returning as soon as the technician leaves.',
+        tip:'Ask "is this one considered lower-risk in pregnancy" — professional pest controllers are used to this question.' },
+
+      { id:'pg37', num:'PG37', risk:'medium', title:'Gardening Chemical & Soil Safety',
+        who:'Anyone pregnant who gardens',
+        what:'Handling garden chemicals or soil without basic precautions',
+        where:'Garden, allotment',
+        why:'Some garden chemicals carry the same general cautions as household chemicals, and soil/cat faeces can carry toxoplasmosis risk, which is a specific pregnancy consideration.',
+        how:'Wear gloves when gardening or handling soil, wash hands thoroughly afterward, avoid handling garden chemicals directly where possible, and avoid contact with soil that may contain cat faeces.',
+        measurement:'General toxoplasmosis-prevention guidance (WHO/NICE aligned): wear gloves when gardening or handling soil, and wash hands thoroughly afterward.',
+        example:'A woman who enjoys gardening starts wearing gloves for every session and washes her hands immediately afterward, a habit she keeps for the whole pregnancy.',
+        tip:'Keep a dedicated pair of gardening gloves by the back door so using them becomes automatic.' },
+
+      { id:'pg38', num:'PG38', risk:'medium', title:'General Ventilation Practices at Home',
+        who:'Anyone pregnant',
+        what:'Living in poorly ventilated indoor spaces for extended periods',
+        where:'Whole home',
+        why:'Good general ventilation reduces indoor air pollutants from cooking, cleaning, and everyday household products, which is a sensible habit at any time and particularly during pregnancy.',
+        how:'Open windows daily where weather allows, use extractor fans when cooking, and avoid running fuel-burning appliances without adequate ventilation.',
+        measurement:'General indoor air-quality guidance: daily ventilation and extractor use during cooking are recommended household habits, consistent across the SafeLife Collection.',
+        example:'A woman opens the kitchen window and switches on the extractor fan every time she cooks, a habit that becomes automatic within a few weeks.',
+        tip:'Ten minutes of a fully open window, even in cooler weather, meaningfully refreshes a room\'s air.' },
+
+      { id:'pg39', num:'PG39', risk:'high', title:'Cat Litter & Toxoplasmosis Handling',
+        who:'Anyone pregnant who lives with a cat',
+        what:'Handling cat litter directly during pregnancy',
+        where:'Home',
+        why:'Toxoplasmosis, which can be carried in cat faeces, is a specific and well-established pregnancy caution — the aim is simple avoidance of the task, not avoiding the cat.',
+        how:'Ask another household member to handle litter tray changes during pregnancy. If you must do it yourself, wear disposable gloves, change the litter daily, and wash your hands thoroughly afterward.',
+        measurement:'WHO and NICE toxoplasmosis-prevention guidance: avoid handling cat litter during pregnancy where possible; use gloves and wash hands thoroughly if unavoidable.',
+        example:'A woman\'s partner takes over the litter tray for the whole pregnancy, while she continues all the usual cuddles with the cat itself.',
+        tip:'This precaution is about the litter tray specifically — there is no need to avoid your cat.' },
+
+      { id:'pg40', num:'PG40', risk:'high', title:'Sauna, Hot Tub & High-Heat Exposure Avoidance',
+        who:'Anyone pregnant',
+        what:'Using saunas, hot tubs, or very hot baths during pregnancy',
+        where:'Home, gym, spa, holiday accommodation',
+        why:'A significant rise in core body temperature is generally advised against in pregnancy, and saunas, hot tubs, and very hot baths can raise core temperature quickly.',
+        how:'Avoid saunas and hot tubs during pregnancy, and keep bath water warm rather than very hot — around 37-38°C (98.6-100.4°F) is a comfortable, commonly recommended range. Get out promptly if you feel overheated, light-headed, or unwell.',
+        measurement:'NICE and international antenatal guidance: avoid sauna/hot tub use and very hot baths in pregnancy; keep bathing water around 37-38°C (98.6-100.4°F).',
+        example:'A woman on holiday skips the hotel hot tub but enjoys a warm (not hot) bath instead, testing the temperature with a simple bath thermometer.',
+        tip:'A cheap bath thermometer takes the guesswork out of "how hot is too hot."' },
+
+      { id:'pg41', num:'PG41', risk:'medium', title:'Air Quality Awareness — Indoors & Outdoors',
+        who:'Anyone pregnant',
+        what:'Not considering air quality when planning time outdoors or indoors',
+        where:'Home, outdoors, workplace',
+        why:'Poor air quality — indoor or outdoor — is a general health consideration that pregnancy makes worth paying a little extra attention to, particularly on days with poor outdoor air quality alerts.',
+        how:'Check local air-quality information on days with wildfire smoke, high pollution, or heavy traffic, and reduce strenuous outdoor activity on those days. Keep indoor air fresh with regular ventilation.',
+        measurement:'WHO ambient air-quality guidance recommends limiting strenuous outdoor exertion during poor air-quality episodes; check local air-quality reporting where available.',
+        example:'A woman checks a local air-quality index before her usual outdoor walk on a smoky day and chooses an indoor alternative instead.',
+        tip:'If the sky looks hazy or you can smell smoke outside, that is a simple everyday cue to check before you head out.' },
+
+      { id:'pg42', num:'PG42', risk:'medium', title:'Safe Storage of Household Chemicals',
+        who:'Anyone pregnant, especially as the household prepares for a baby',
+        what:'Household chemicals stored within easy reach or without clear labelling',
+        where:'Kitchen, bathroom, laundry, garage',
+        why:'Clear, high, locked-away storage of chemicals protects everyone in the household, and is worth establishing now rather than scrambling to do it after the baby arrives.',
+        how:'Store all cleaning and garden chemicals in their original, labelled containers, up high or in a locked cabinet, well away from food and reachable countertops.',
+        measurement:'General household chemical-safety guidance (consistent across the SafeLife Collection): store chemicals in original containers, locked or out of reach, separate from food storage.',
+        example:'A couple moves all under-sink cleaning products to a high, latched cabinet in the utility room while preparing the kitchen for the baby.',
+        tip:'Doing this now, before the baby arrives, means one less urgent task in the newborn haze later.' },
+
+      { id:'pg43', num:'PG43', risk:'high', title:'X-Ray & Radiation Exposure Awareness in Daily Life',
+        who:'Anyone pregnant or who might be pregnant',
+        what:'Undergoing an X-ray, scan, or dental radiograph without mentioning pregnancy',
+        where:'Medical, dental, or workplace imaging settings',
+        why:'Many imaging procedures are considered low-risk with appropriate shielding, and healthcare providers routinely adjust their approach once they know you are pregnant — telling them is what allows that adjustment to happen.',
+        how:'Always tell any healthcare provider, dentist, or workplace safety officer that you are (or might be) pregnant before any X-ray, scan, or radiation-related procedure, so appropriate precautions or alternatives can be considered.',
+        measurement:'WHO and international radiology guidance: inform providers of known or possible pregnancy before any radiological procedure so risk-benefit and shielding can be assessed individually.',
+        example:'A woman having a routine dental X-ray mentions she is 8 weeks pregnant before the appointment, and the dentist adjusts the plan accordingly.',
+        tip:'Mentioning pregnancy is a simple sentence that lets professionals do their job properly — it is never an inconvenience to say.' }
+    ]
+  },
+  {
+    id: 5, name: 'Movement, Lifting & Falls Prevention', icon: '🚶‍♀️',
+    desc: '10 checks covering safe lifting, footwear and grip, trip hazards, safe bathing, balance changes, ladders, seatbelt technique and icy or wet surfaces.',
+    checks: [
+      { id:'pg44', num:'PG44', risk:'high', title:'Safe Lifting Technique as the Bump Grows',
+        who:'Anyone pregnant who lifts anything, from shopping bags to other children',
+        what:'Lifting with poor technique as balance and core support change',
+        where:'Home, work, car park',
+        why:'Loosening ligaments and a shifting centre of gravity increase back strain and fall risk when lifting incorrectly during pregnancy.',
+        how:'Bend at the knees rather than the waist, keep the load close to your body, avoid twisting while lifting, and ask for help with heavy or awkward items rather than managing alone.',
+        measurement:'General manual-handling guidance (consistent international HSE practice): bend knees, keep load close, avoid twisting, get help for heavy or awkward loads — extra caution in pregnancy.',
+        example:'A woman asks a colleague to help carry a heavy box rather than lifting it alone, a habit she keeps up through her whole pregnancy.',
+        tip:'If a lift makes you brace or hold your breath, that is your cue to ask for help instead.' },
+
+      { id:'pg45', num:'PG45', risk:'medium', title:'Footwear & Grip for Fall Prevention',
+        who:'Anyone pregnant, any trimester',
+        what:'Worn-out soles or unstable shoes increasing slip and fall risk',
+        where:'Home, work, outdoors',
+        why:'Falls carry a higher stake in pregnancy, and grip/tread on footwear is one of the simplest, most controllable factors.',
+        how:'Check the tread on your most-worn shoes regularly and replace worn, smooth soles. Choose flat, wide-based shoes with good grip for wet or icy conditions, and avoid loose slippers on stairs.',
+        measurement:'General falls-prevention guidance (consistent across the SafeLife Collection): replace worn or slippery-soled footwear; avoid loose-backed slippers on stairs.',
+        example:'A woman replaces her go-to trainers once she notices the tread has worn smooth on one side, rather than waiting for a fall to prompt it.',
+        tip:'Run a thumb across the sole of your most-used shoes each month — smooth patches are your cue to replace them.' },
+
+      { id:'pg46', num:'PG46', risk:'high', title:'Stairs, Rugs & Trip-Hazard Awareness',
+        who:'Anyone pregnant',
+        what:'Trip hazards on stairs and walkways that become higher-stakes as balance changes',
+        where:'Staircases, hallways, living areas',
+        why:'A shifting centre of gravity and looser ligaments make trips more likely to become falls in pregnancy, so removing the hazard is more effective than relying on extra care alone.',
+        how:'Secure or remove loose rugs, keep stairs and walkways completely clear of clutter, ensure good lighting on stairs, and add a handrail if one is not already fitted.',
+        measurement:'General falls-prevention guidance (consistent across the SafeLife Collection): secure loose rugs, keep walkways clear, ensure stair lighting and handrails.',
+        example:'A couple adds non-slip backing to a hallway rug that had started to curl at the edges, rather than just stepping around it.',
+        tip:'Walk your own home once specifically looking for trip hazards, the way a safety inspector would.' },
+
+      { id:'pg47', num:'PG47', risk:'high', title:'Safe Bathing — Tub Entry, Exit & Water Temperature',
+        who:'Anyone pregnant',
+        what:'Slippery bath surfaces and hot water increasing fall and overheating risk',
+        where:'Bathroom',
+        why:'Wet surfaces combined with a changing centre of gravity increase the chance of a fall entering or exiting the bath, and water that is too hot raises core body temperature more than is advised in pregnancy.',
+        how:'Use a non-slip bath mat, install a grab rail if possible, enter and exit slowly holding a stable support, and keep water warm rather than hot — around 37-38°C (98.6-100.4°F).',
+        measurement:'General bathroom falls-prevention and antenatal temperature guidance: non-slip surfaces and grab rails reduce fall risk; bath water around 37-38°C (98.6-100.4°F).',
+        example:'A woman installs a suction grab rail by the bath in her second trimester and uses it every time she gets in or out.',
+        tip:'Test water temperature with your wrist or a bath thermometer before getting in, every time.' },
+
+      { id:'pg48', num:'PG48', risk:'high', title:'Balance Changes & General Fall-Prevention Habits',
+        who:'Anyone pregnant, especially second and third trimester',
+        what:'Underestimating how much balance changes as pregnancy progresses',
+        where:'Anywhere',
+        why:'The combination of a forward-shifted centre of gravity, loosening ligaments, and sometimes reduced visibility of the ground can meaningfully change balance, even for people who have never felt unsteady before.',
+        how:'Move a little more slowly and deliberately, especially on stairs or uneven ground; hold handrails where available; avoid rushing on wet or cluttered surfaces; and consider a stable ally (partner, cane if recommended) for particularly unsteady days.',
+        measurement:'General falls-prevention guidance: recognising a genuine, physiological balance change in pregnancy — not just "being careful" — is the key first step, per international antenatal safety guidance.',
+        example:'A woman who has never felt unsteady before finds herself holding the handrail on stairs by her third trimester and treats that as sensible, not embarrassing.',
+        tip:'Slowing down on stairs is not overcautious — it is an accurate response to a real physical change.' },
+
+      { id:'pg49', num:'PG49', risk:'high', title:'Ladders & Step-Stools — Avoidance in Pregnancy',
+        who:'Anyone pregnant',
+        what:'Climbing ladders or step-stools during pregnancy',
+        where:'Home, garden, workplace',
+        why:'A fall from height carries disproportionate risk at any stage of pregnancy, and balance changes make climbing tasks meaningfully riskier than they were before.',
+        how:'Avoid ladders and step-stools during pregnancy — ask someone else to reach high shelves, change light bulbs, or clean gutters. If nothing else is possible, use a firmly grounded, wide-based step with someone holding it steady, and never for tasks requiring reaching or stretching.',
+        measurement:'General falls-from-height prevention guidance (consistent across the SafeLife Collection): avoid ladder and step-stool use in pregnancy; delegate elevated tasks where possible.',
+        example:'A woman asks her partner to change a high hallway light bulb rather than climbing the step-stool herself, as she would have done before pregnancy.',
+        tip:'This is a task to delegate for the whole pregnancy, not just when you are feeling unsteady.' },
+
+      { id:'pg50', num:'PG50', risk:'high', title:'Seatbelt Positioning Technique — the Full Method',
+        who:'Anyone pregnant travelling by car',
+        what:'A correctly worn seatbelt still positioned imprecisely',
+        where:'Car',
+        why:'The exact positioning of both straps meaningfully changes how well the belt protects you and the pregnancy in the event of a sudden stop or collision.',
+        how:'Lap strap: as low as possible, snug across the hip bones and upper thighs, under the bump. Diagonal strap: across the centre of the chest, between the breasts, resting to the side of the bump, never across it. Adjust the seat back angle for comfort without removing the belt.',
+        measurement:'International road-safety and antenatal guidance: lap strap low across the hips under the bump, diagonal strap between the breasts and beside the bump — for the entire pregnancy.',
+        example:'A woman re-checks her seatbelt position every time she gets in the car, particularly as her bump grows larger through the third trimester.',
+        tip:'If you are ever unsure your belt is positioned correctly, ask your midwife or doctor to check it with you at an appointment.' },
+
+      { id:'pg51', num:'PG51', risk:'medium', title:'Getting Up From Lying or Sitting Safely',
+        who:'Anyone pregnant, second trimester onward',
+        what:'Getting up quickly from lying or sitting, risking dizziness or strain',
+        where:'Bed, sofa, floor',
+        why:'Blood pressure can dip briefly when standing up quickly in pregnancy, causing light-headedness, and abdominal muscles are also under more strain supporting the bump.',
+        how:'Roll onto your side first, then use your arms to push up to sitting before standing, rather than sitting straight up from flat on your back. Pause for a moment before standing fully.',
+        measurement:'General antenatal comfort and safety guidance: roll-to-side-then-push-up technique reduces strain and light-headedness when rising from lying down in pregnancy.',
+        example:'A woman gets into the habit of rolling onto her side before pushing herself up from bed, rather than sitting up straight, from her second trimester onward.',
+        tip:'Practise the roll-then-push-up motion a few times when you are not in a hurry, so it becomes automatic later.' },
+
+      { id:'pg52', num:'PG52', risk:'high', title:'Icy or Wet Surface Caution',
+        who:'Anyone pregnant during colder or wetter seasons',
+        what:'Walking on icy, snowy, or very wet surfaces without extra caution',
+        where:'Outdoor paths, driveways, car parks',
+        why:'Slippery surfaces combined with pregnancy balance changes meaningfully increase fall risk during colder, wetter seasons.',
+        how:'Choose flat, grippy footwear for icy or wet conditions, walk slowly with short steps, use handrails where available, and avoid unnecessary outdoor trips on days with ice or heavy rain if you can.',
+        measurement:'General falls-prevention guidance: short, slow steps and grippy footwear reduce slip risk on icy or wet surfaces, an established seasonal safety practice.',
+        example:'A woman postpones a non-essential errand on an icy winter morning and asks her partner to collect groceries instead.',
+        tip:'The "penguin shuffle" — small steps with a slightly wider stance — genuinely reduces slip risk on ice.' },
+
+      { id:'pg53', num:'PG53', risk:'medium', title:'Safe Exercise Environment Setup',
+        who:'Anyone pregnant continuing exercise at home',
+        what:'Exercising in a cluttered, unstable, or poorly lit space',
+        where:'Home exercise area',
+        why:'A safe environment reduces the chance that a balance wobble turns into a fall, particularly for floor-based or balance exercises.',
+        how:'Clear the exercise space of clutter and trip hazards, exercise on a non-slip surface, keep good lighting, and have something stable nearby to hold if a balance exercise feels wobbly.',
+        measurement:'General falls-prevention guidance for home exercise (consistent across the SafeLife Collection): clear, well-lit, non-slip exercise space with a stable support point nearby.',
+        example:'A woman moves her prenatal yoga mat away from a rug edge and closer to a wall she can steady herself against.',
+        tip:'A wall or sturdy chair within arm\'s reach is a simple, free safety net for any home exercise routine.' }
+    ]
+  },
+  {
+    id: 6, name: 'Rest, Sleep & Comfort', icon: '😴',
+    desc: '10 checks covering safe sleep position, pillow support, room temperature, varicose veins, travel positioning, restless legs, heartburn, napping and hydration.',
+    checks: [
+      { id:'pg54', num:'PG54', risk:'high', title:'Safe Sleep Position — Left-Side Sleeping',
+        who:'Anyone pregnant, from around 28 weeks onward',
+        what:'Sleeping flat on the back for extended periods late in pregnancy',
+        where:'Bed',
+        why:'From around 28 weeks, prolonged flat-on-back sleep is linked to reduced blood flow due to compression of major blood vessels; side sleeping, particularly on the left, is the internationally recommended position.',
+        how:'Sleep on your side, ideally the left, using pillows for support between the knees and behind the back. If you wake on your back, simply roll back onto your side — occasional brief repositioning during sleep is normal and not a cause for alarm.',
+        measurement:'International antenatal guidance (WHO/NICE-aligned): side sleeping, ideally left side, recommended from around 28 weeks; brief repositioning during sleep is not considered harmful.',
+        example:'A woman uses a full-length pregnancy pillow from her second trimester so that side sleeping feels natural well before 28 weeks.',
+        tip:'Do not lie awake worrying if you wake on your back — simply roll to your side and settle again.' },
+
+      { id:'pg55', num:'PG55', risk:'low', title:'Pillow & Support Use for Comfort',
+        who:'Anyone pregnant experiencing sleep discomfort',
+        what:'Not using supportive positioning to ease pregnancy-related aches at night',
+        where:'Bed',
+        why:'Targeted pillow support under the bump, between the knees, and behind the back can meaningfully reduce hip, back, and pelvic discomfort overnight.',
+        how:'Experiment with pillow placement — between the knees for hip alignment, under the bump for support, behind the back to prevent rolling flat. A dedicated pregnancy pillow can replace several separate pillows.',
+        measurement:'General antenatal comfort guidance: supportive pillow positioning reduces reported hip and back discomfort in later pregnancy.',
+        example:'A woman tries three different pillow combinations before settling on one between her knees and one behind her back as her nightly setup.',
+        tip:'It is worth a few nights of trial and error to find your own best pillow combination — comfort is individual.' },
+
+      { id:'pg56', num:'PG56', risk:'medium', title:'Room Temperature for Sleep',
+        who:'Anyone pregnant',
+        what:'A bedroom that is too warm, disrupting sleep and increasing discomfort',
+        where:'Bedroom',
+        why:'Pregnancy raises core body temperature slightly and disrupted temperature regulation, combined with a warm room, can make sleep considerably harder to get.',
+        how:'Keep the bedroom cool and well ventilated, use breathable bedding and sleepwear, and consider a fan for warmer nights.',
+        measurement:'General sleep-hygiene guidance: a cool, well-ventilated bedroom (commonly cited comfortable range around 16-19°C / 61-66°F) supports better sleep, including in pregnancy.',
+        example:'A woman who used to sleep with a heavy duvet switches to lighter, breathable bedding and cracks a window through her third trimester.',
+        tip:'A small bedside fan is an inexpensive fix for pregnancy night sweats.' },
+
+      { id:'pg57', num:'PG57', risk:'medium', title:'Managing Varicose Veins & Leg Comfort',
+        who:'Anyone pregnant experiencing leg heaviness, aching, or visible veins',
+        what:'Prolonged standing or sitting without leg-comfort measures',
+        where:'Home, work',
+        why:'Increased blood volume and pressure from the growing uterus can contribute to varicose veins and leg swelling in pregnancy; simple measures ease discomfort considerably.',
+        how:'Elevate your feet when resting, avoid crossing your legs for long periods, move regularly rather than standing or sitting still for hours, and ask your midwife about supportive compression stockings if discomfort is significant.',
+        measurement:'General antenatal comfort guidance: leg elevation, regular movement, and compression stockings (if recommended by your provider) reduce venous discomfort in pregnancy.',
+        example:'A woman who stands most of her workday starts propping her feet up on a low stool during breaks and notices less end-of-day aching.',
+        tip:'Ask your midwife specifically about compression stockings if your legs feel heavy by the end of most days.' },
+
+      { id:'pg58', num:'PG58', risk:'medium', title:'Safe Travel Positioning & Rest Breaks',
+        who:'Anyone pregnant on a car or plane journey',
+        what:'Sitting still for long periods on a journey without movement breaks',
+        where:'Car, aircraft, train',
+        why:'Long periods of immobility can contribute to leg swelling and, rarely, clotting risk, which pregnancy modestly increases — regular movement is a simple, effective countermeasure.',
+        how:'Stop for a short walk every couple of hours on a car journey; on a plane, walk the aisle periodically and flex your ankles regularly while seated; stay well hydrated throughout.',
+        measurement:'General travel-health guidance for pregnancy: regular movement breaks and ankle exercises reduce venous stasis risk on long journeys.',
+        example:'A woman on a long flight sets a reminder to flex her ankles every 30 minutes and takes an aisle walk once an hour.',
+        tip:'An aisle seat makes it much easier to get up and move without disturbing anyone else.' },
+
+      { id:'pg59', num:'PG59', risk:'low', title:'Restless Legs — General Comfort Measures',
+        who:'Anyone pregnant experiencing restless legs, particularly in the evening',
+        what:'An uncomfortable urge to move the legs disrupting rest or sleep',
+        where:'Bed, sofa',
+        why:'Restless legs are a recognised, usually temporary pregnancy symptom, often related to shifts in iron or other levels — comfort measures help, and persistent symptoms are worth mentioning to your provider.',
+        how:'Try gentle stretching before bed, a warm bath, or a short walk in the evening. Mention persistent or severe restless legs to your midwife or doctor, as it is sometimes linked to iron levels that are simple to check.',
+        measurement:'Recognition-only per NICE guidance: restless legs are a recognised pregnancy symptom; persistent or severe cases warrant discussion with your midwife or doctor.',
+        example:'A woman with evening restlessness in her legs starts a gentle stretching routine before bed and mentions it at her next appointment when it does not fully settle.',
+        tip:'Mention it even if it feels minor — a simple blood test can rule out an easy-to-fix cause.' },
+
+      { id:'pg60', num:'PG60', risk:'low', title:'Heartburn-Safe Positioning',
+        who:'Anyone pregnant experiencing heartburn or reflux',
+        what:'Lying flat soon after eating, worsening reflux discomfort',
+        where:'Bed, sofa',
+        why:'Hormonal changes relax the valve between the stomach and oesophagus in pregnancy, and a growing uterus adds pressure, both increasing reflux — positioning can meaningfully help.',
+        how:'Eat smaller, more frequent meals, avoid lying flat for at least an hour after eating, and prop yourself up slightly with extra pillows overnight if heartburn is a problem. Ask your midwife or pharmacist about pregnancy-safe antacid options if needed.',
+        measurement:'NICE guidance: smaller meals, avoiding recumbency after eating, and upright positioning are first-line measures for pregnancy reflux; pharmacological options should be confirmed with your pharmacist or doctor.',
+        example:'A woman raises the head of her bed slightly with an extra pillow and stops eating within an hour of bedtime, noticeably reducing her evening heartburn.',
+        tip:'Ask your pharmacist which antacids are considered pregnancy-safe rather than guessing from what is already in the cabinet.' },
+
+      { id:'pg61', num:'PG61', risk:'low', title:'Safe Napping Practices',
+        who:'Anyone pregnant needing extra daytime rest',
+        what:'Uncertainty about whether and how to nap safely during the day',
+        where:'Home, workplace rest area',
+        why:'Daytime naps are a normal and often necessary part of managing pregnancy fatigue, and the same positional guidance that applies at night applies here too.',
+        how:'Nap on your side rather than flat on your back, especially from mid-pregnancy onward, keep naps to a reasonable length so night sleep is not disrupted, and rest somewhere comfortable and safe from trip hazards.',
+        measurement:'Same international antenatal safe-sleep positioning guidance applies to daytime naps as to night sleep from around 28 weeks.',
+        example:'A woman who naps most afternoons in her third trimester makes a habit of lying on her side on the sofa, propped with a cushion, rather than flat on her back.',
+        tip:'A short, well-timed nap can be more restorative than trying to push through an entire tired afternoon.' },
+
+      { id:'pg62', num:'PG62', risk:'low', title:'Hydration for Overall Comfort',
+        who:'Anyone pregnant, second and third trimester especially',
+        what:'Reduced fluid intake contributing to headaches, constipation, or Braxton Hicks discomfort',
+        where:'Home, work',
+        why:'Good hydration supports digestion, reduces headache frequency, and can even reduce the frequency of Braxton Hicks contractions for some people.',
+        how:'Keep a water bottle within reach through the day, increase intake further in hot weather or after exercise, and mention persistent headaches or very infrequent urination to your midwife or doctor.',
+        measurement:'General antenatal hydration guidance: adequate fluid intake supports comfort and reduces headache and Braxton Hicks frequency for many people; individual needs vary and can be discussed with your provider.',
+        example:'A woman notices her Braxton Hicks contractions ease noticeably after she increases her water intake on a hot afternoon.',
+        tip:'If Braxton Hicks contractions increase, try a big glass of water and a change of position before anything else.' },
+
+      { id:'pg63', num:'PG63', risk:'medium', title:'General Comfort — Recognising Normal vs When to Call',
+        who:'Anyone pregnant',
+        what:'Uncertainty about which discomforts are a normal part of pregnancy and which need professional input',
+        where:'Anywhere',
+        why:'Pregnancy involves a huge range of normal, temporary discomforts, and knowing the general rule of thumb for when something crosses into "worth calling about" reduces both unnecessary worry and missed concerns.',
+        how:'As a general rule: gradual, mild, and familiar discomforts that ease with rest or simple measures are usually normal; sudden, severe, one-sided, or unfamiliar symptoms — or anything paired with feeling generally unwell — are worth a call. When in doubt, call and ask rather than waiting.',
+        measurement:'Recognition-only framing consistent with NICE and WHO antenatal guidance: sudden, severe, or unfamiliar symptoms always warrant professional assessment rather than self-management.',
+        example:'A woman uses this simple rule of thumb to decide that her familiar evening backache does not need a call, but a sudden new sharp pain the following week does.',
+        tip:'There is no such thing as a silly call to your maternity team — that is genuinely what they are there for.' }
+    ]
+  },
+  {
+    id: 7, name: 'Mental Wellbeing & When to Call', icon: '💛',
+    desc: '10 checks covering mood changes, support networks, stress management, antenatal depression and anxiety, and the red flags that always warrant an immediate call.',
+    checks: [
+      { id:'pg64', num:'PG64', risk:'medium', title:'Mood Changes & Antenatal Mental Health Awareness',
+        who:'Anyone pregnant',
+        what:'Not recognising ordinary mood fluctuation versus a pattern that may need support',
+        where:'Anywhere',
+        why:'Hormonal and life changes in pregnancy can genuinely affect mood, and antenatal anxiety and depression are common, recognised, and treatable — awareness is the first step toward getting support if needed.',
+        how:'Notice your own emotional patterns through pregnancy without judgement, and mention persistent low mood, excessive worry, or a loss of interest in things you normally enjoy to your midwife or doctor at any appointment, not just a scheduled mental-health check.',
+        measurement:'NICE guidance: antenatal mental health screening is a routine part of maternity care; persistent symptoms should be raised proactively with your provider at any appointment.',
+        example:'A woman mentions that she has felt persistently low for the past two weeks at a routine midwife appointment, rather than waiting to be asked.',
+        tip:'You do not need to wait for a specific "mental health" appointment — you can raise this at any routine visit.' },
+
+      { id:'pg65', num:'PG65', risk:'low', title:'Building a Support Network',
+        who:'Anyone pregnant',
+        what:'Facing pregnancy and the transition to parenthood without an identified support network',
+        where:'Home, community',
+        why:'A recognised, accessible support network — practical and emotional — is strongly associated with better wellbeing through pregnancy and beyond.',
+        how:'Identify a small group of people you can call on for practical help and emotional support, consider an antenatal class or local parent group to build new connections, and let people know specifically how they can help rather than waiting to be offered.',
+        measurement:'General antenatal wellbeing guidance: identifying practical and emotional support networks is a recommended part of antenatal preparation.',
+        example:'A woman joins a local antenatal class specifically to meet others due around the same time, building a peer support network alongside her family one.',
+        tip:'Being specific — "could you bring a meal over in my first week home" — makes it much easier for people to actually help.' },
+
+      { id:'pg66', num:'PG66', risk:'medium', title:'Stress Management Basics',
+        who:'Anyone pregnant',
+        what:'Unmanaged stress affecting sleep, mood, or overall wellbeing during pregnancy',
+        where:'Home, work',
+        why:'Some stress in pregnancy is normal, but ongoing, unmanaged stress is worth actively addressing — for your own wellbeing as much as anything else.',
+        how:'Build in small daily moments of rest or relaxation (breathing exercises, gentle movement, time outdoors), talk to your support network or provider about ongoing stressors, and consider antenatal relaxation or mindfulness classes if available to you.',
+        measurement:'General antenatal wellbeing guidance: routine stress-management practices are recommended as part of standard antenatal self-care.',
+        example:'A woman starts a five-minute breathing exercise before bed each night after noticing work stress affecting her sleep.',
+        tip:'Small, consistent practices (five minutes daily) tend to help more than occasional long ones.' },
+
+      { id:'pg67', num:'PG67', risk:'high', title:'Recognising Antenatal Depression & Anxiety Signs',
+        who:'Anyone pregnant',
+        what:'Persistent low mood, excessive worry, or loss of interest that goes beyond ordinary pregnancy adjustment',
+        where:'Anywhere',
+        why:'Antenatal depression and anxiety are common and treatable conditions, not a personal failing, and recognising the signs (never diagnosing yourself) is what opens the door to support.',
+        how:'Be aware of signs such as persistent sadness or low mood for most of the day over two weeks or more, loss of interest in things you usually enjoy, excessive or constant worry, or thoughts of harming yourself. Tell your midwife or doctor about any of these — support and treatment options exist and work.',
+        measurement:'NICE guidance: persistent low mood, anxiety, or loss of interest lasting two weeks or more should be discussed with your maternity provider for assessment and support options.',
+        example:'A woman who has felt persistently anxious and tearful for three weeks tells her midwife at her next appointment, who refers her to a specialist perinatal mental health service.',
+        tip:'Asking for support during pregnancy is a sign of strength and self-awareness, not a failure to cope.' },
+
+      { id:'pg68', num:'PG68', risk:'critical', title:'Bleeding Red Flags — Always Call',
+        who:'Anyone pregnant, any trimester',
+        what:'Vaginal bleeding of any amount during pregnancy',
+        where:'Anywhere',
+        why:'Bleeding in pregnancy has many possible causes, some minor and some needing urgent assessment — the safe response is always the same regardless of the cause: contact your provider promptly rather than waiting to see how it develops.',
+        how:'Contact your midwife, doctor, or maternity unit the same day for any bleeding, and seek emergency care immediately for heavy bleeding (soaking a pad in under an hour), bleeding with severe pain, or bleeding with dizziness or fainting.',
+        measurement:'NICE and WHO guidance: any vaginal bleeding in pregnancy warrants prompt professional assessment; heavy bleeding or bleeding with severe pain or fainting warrants emergency care immediately.',
+        example:'A woman notices light spotting at 14 weeks and calls her midwife the same morning, who arranges an assessment that day to check everything is well.',
+        tip:'Any bleeding is worth a call — there is no amount too small to mention.' },
+
+      { id:'pg69', num:'PG69', risk:'critical', title:'Severe Headache or Visual Changes — Always Call',
+        who:'Anyone pregnant, particularly from 20 weeks onward',
+        what:'A severe or unusual headache, or visual disturbances such as flashing lights or blurring',
+        where:'Anywhere',
+        why:'These symptoms can be associated with pre-eclampsia and other conditions that need prompt assessment — recognising the pattern (not diagnosing it) is what protects you.',
+        how:'Contact your midwife, doctor, or maternity unit immediately for a severe headache that does not ease with rest or usual pain relief, or for any new visual disturbance, especially alongside swelling or upper abdominal pain.',
+        measurement:'WHO and NICE guidance: severe or unusual headache with visual disturbance warrants immediate assessment for possible pre-eclampsia, regardless of time of day.',
+        example:'A woman develops a severe headache with some flickering in her vision one evening and calls her maternity unit straight away rather than taking a pain reliever and waiting to see if it passes.',
+        tip:'This combination of symptoms is always worth an immediate call — it is never an overreaction.' },
+
+      { id:'pg70', num:'PG70', risk:'critical', title:'Severe Abdominal Pain — Always Call',
+        who:'Anyone pregnant, any trimester',
+        what:'Severe, persistent, or one-sided abdominal pain',
+        where:'Anywhere',
+        why:'Severe abdominal pain has several possible serious causes across pregnancy and always warrants prompt professional assessment rather than waiting to see if it eases.',
+        how:'Contact your midwife, doctor, or maternity unit immediately for severe, persistent, or one-sided abdominal pain, especially alongside bleeding, fever, dizziness, or feeling generally unwell.',
+        measurement:'NICE and WHO guidance: severe or persistent abdominal pain in pregnancy warrants immediate professional assessment.',
+        example:'A woman at 30 weeks develops sudden, severe abdominal pain that does not ease with rest and calls her maternity unit straight away, who advise her to come in immediately.',
+        tip:'Severe pain that is different from your usual pregnancy aches is always worth calling about immediately.' },
+
+      { id:'pg71', num:'PG71', risk:'critical', title:'Fever Red Flags — Always Call',
+        who:'Anyone pregnant',
+        what:'A high or persistent fever during pregnancy',
+        where:'Anywhere',
+        why:'A significant fever in pregnancy can be a sign of an infection that needs prompt treatment, both for your own health and the pregnancy.',
+        how:'Contact your midwife or doctor the same day for a temperature of 38°C (100.4°F) or above, or for a persistent lower-grade fever, especially alongside other symptoms such as pain, bleeding, or feeling generally unwell.',
+        measurement:'WHO and NICE guidance: a temperature of 38°C (100.4°F) or higher in pregnancy warrants same-day medical assessment.',
+        example:'A woman with a temperature of 38.4°C (101.1°F) and general aches calls her midwife the same day rather than just taking a fever-reducing medicine and waiting.',
+        tip:'Keep a simple thermometer at home through pregnancy — it makes this an easy, objective check rather than a guess.' },
+
+      { id:'pg72', num:'PG72', risk:'medium', title:'Partner & Family Communication About Mental Health',
+        who:'Anyone pregnant and their partner or close family',
+        what:'Mental health changes in pregnancy not being discussed openly within the household',
+        where:'Home',
+        why:'Partners and family often notice changes before the pregnant person does themselves, and open communication makes it much easier to get support early rather than late.',
+        how:'Talk openly with your partner or close family about how you are both feeling through pregnancy, agree on simple check-in language ("how are you really doing today"), and encourage each other to raise concerns with your maternity provider together if needed.',
+        measurement:'General antenatal wellbeing guidance: open partner/family communication about mental health is associated with earlier recognition and support-seeking.',
+        example:'A couple agrees to ask each other "how are you really doing" once a week through the pregnancy, not just "how are you."',
+        tip:'Partners can raise a concern to the maternity team too — support is not only accessed by the pregnant person themselves.' },
+
+      { id:'pg73', num:'PG73', risk:'high', title:'When in Doubt — Always Call Your Provider',
+        who:'Anyone pregnant, at any stage',
+        what:'Hesitating to call because a symptom feels minor, uncertain, or "probably nothing"',
+        where:'Anywhere, any time',
+        why:'This whole module is built on one consistent principle: recognising a pattern of concern and calling is always the right response — diagnosing yourself, or deciding not to bother the maternity team, is not.',
+        how:'If you are ever unsure whether something is worth mentioning, call anyway. Maternity teams would always rather hear from you and reassure you than have you wait through genuine worry or a genuine concern.',
+        measurement:'General principle underlying all antenatal red-flag guidance (WHO/NICE-aligned): when in doubt, contact your maternity provider — it is never an inappropriate use of the service.',
+        example:'A woman calls her maternity unit about a symptom she is not sure is significant and is warmly reassured within minutes — exactly the outcome the call line exists for.',
+        tip:'Save your maternity unit\'s number in your cheat sheet today, so calling is never the hard part.' }
+    ]
+  },
+  {
+    id: 8, name: 'Preparing the Home for Baby', icon: '🍼',
+    desc: '11 checks covering car seat safety, nursery setup, babyproofing head-start, postnatal home setup, feeding preparation, pets, siblings and a final walkthrough.',
+    checks: [
+      { id:'pg74', num:'PG74', risk:'critical', title:'Car Seat Safety Basics — Before the Birth',
+        who:'Anyone preparing to bring a newborn home by car',
+        what:'Not having a correctly fitted, appropriate car seat ready before labour',
+        where:'Car, home',
+        why:'A correctly fitted, rear-facing infant car seat is one of the single most protective pieces of newborn safety equipment, and it needs to be ready and correctly fitted before you need it, not researched in the maternity car park.',
+        how:'Choose a car seat that meets an internationally recognised standard, have it professionally checked or fitted before your due date, and practise fitting and removing it a few times so it feels familiar.',
+        measurement:'UN R129 (i-Size) or equivalent internationally recognised car-seat standard; rear-facing for as long as the seat allows from birth, professionally checked before first use.',
+        example:'A couple has their newly bought infant car seat checked by a trained fitter at 36 weeks, well before the due date, rather than figuring it out for the first time at the hospital.',
+        tip:'Practise fitting the empty car seat at home a few times — it is much easier to learn without a newborn and an audience.' },
+
+      { id:'pg75', num:'PG75', risk:'critical', title:'Nursery Safety Setup — Crib Standards & Safe Bedding',
+        who:'Anyone setting up a sleep space for a newborn',
+        what:'A crib or sleep space that does not meet safety standards, or loose bedding inside it',
+        where:'Nursery, bedroom',
+        why:'Safe sleep space is one of the most protective, well-evidenced areas of newborn safety, and it is far easier to set up correctly in advance than to adjust in the exhausted early weeks.',
+        how:'Choose a crib or moses basket that meets a recognised safety standard, use only a firm, flat, well-fitting mattress, and keep the sleep space clear of loose blankets, pillows, cot bumpers, and soft toys. Follow your maternity provider\'s safe-sleep guidance for the first months.',
+        measurement:'WHO and internationally recognised crib-safety standards (e.g. BS EN 716 or equivalent): firm flat mattress, no loose bedding, pillows, bumpers or soft toys in the sleep space.',
+        example:'A couple sets up the crib with just a fitted sheet on a firm mattress, keeping the soft toys and blankets they were given as gifts stored away for later.',
+        tip:'A clear, "boring-looking" crib is exactly what a genuinely safe one looks like — resist the urge to decorate it with soft additions.' },
+
+      { id:'pg76', num:'PG76', risk:'medium', title:'Babyproofing Head-Start',
+        who:'Anyone preparing a home for a newborn',
+        what:'Waiting until the baby is mobile to start any babyproofing',
+        where:'Whole home',
+        why:'A newborn will not need full babyproofing immediately, but a head-start on the basics — sockets, cords, small objects — reduces later workload considerably, and general home-safety habits are worth having from day one.',
+        how:'Cover accessible electrical sockets, tidy loose cords and cables, and do a general declutter of small objects at floor level. Full babyproofing for a mobile baby is covered in depth in the SafeLife Newborn and Infant modules as your baby grows.',
+        measurement:'General home-safety guidance (consistent across the SafeLife Collection): basic socket and cord safety is a reasonable head-start at any stage; full mobility-stage babyproofing is addressed as your baby develops.',
+        example:'A couple covers unused sockets and tidies visible cables in the living room while pregnant, knowing the rest can wait until closer to when the baby starts moving.',
+        tip:'A small head-start now means a shorter list to tackle later, when your time and energy will be in much shorter supply.' },
+
+      { id:'pg77', num:'PG77', risk:'medium', title:'Postnatal Home Setup — Essentials Within Reach',
+        who:'Anyone preparing for the early postpartum weeks',
+        what:'A home set up for pre-baby life rather than post-birth recovery and newborn care',
+        where:'Bedroom, living area, kitchen',
+        why:'The first days and weeks after birth involve significant physical recovery alongside newborn care, and a home arranged with essentials within easy reach reduces unnecessary strain during that time.',
+        how:'Set up a "recovery station" near where you will spend most time — water, snacks, phone charger, nappy-changing supplies, and any recommended postpartum comfort items — so you are not making repeated trips up and down stairs in the early days.',
+        measurement:'General postnatal recovery guidance: keeping essentials within reach reduces unnecessary exertion during early physical recovery after birth.',
+        example:'A woman sets up a small basket of essentials beside the sofa and another beside the bed before her due date, so both her main resting spots are covered.',
+        tip:'Set this up before the birth, not after — it is a much easier task without a newborn and a healing body.' },
+
+      { id:'pg78', num:'PG78', risk:'medium', title:'Partner & Support-Person Role Preparation',
+        who:'Partners or main support people preparing for the birth and early weeks',
+        what:'A support person who has not thought through their practical role in advance',
+        where:'Home, birth setting',
+        why:'A support person who knows their practical role in advance — logistics, advocacy, early newborn care — is measurably more useful in the moment than one figuring it out as things happen.',
+        how:'Talk through birth-day logistics together, agree who handles what in the early weeks (meals, visitors, other children), and encourage the support person to learn basic newborn care alongside the pregnant person, not as an afterthought.',
+        measurement:'General antenatal preparation guidance: shared, discussed preparation between the pregnant person and their support person is associated with smoother early-postpartum adjustment.',
+        example:'A partner attends antenatal classes alongside the pregnant person specifically to feel confident with early newborn care from day one.',
+        tip:'Ask your support person directly what they feel unprepared for — it is often different from what you assume.' },
+
+      { id:'pg79', num:'PG79', risk:'medium', title:'Safe Feeding Supply Preparation — Breastfeeding & Formula',
+        who:'Anyone preparing to feed a newborn, whichever way they choose',
+        what:'Feeding supplies not prepared in advance, or uncertainty about safe preparation',
+        where:'Home',
+        why:'Whichever feeding method a family chooses, having supplies ready and knowing basic safe-preparation principles in advance reduces stress in the first days.',
+        how:'If planning to breastfeed, learn about the general support available (feeding counsellor, lactation consultant, peer support groups) before the birth. If planning to use formula, learn the basic safe-preparation principles (correctly measured, freshly boiled water per manufacturer instructions, cooled to the right temperature, used promptly) from your midwife or health visitor rather than guessing.',
+        measurement:'WHO Baby-Friendly guidance supports informed feeding choice with proper preparation education for whichever method is chosen; formula preparation should always follow manufacturer and professional guidance exactly.',
+        example:'A woman planning to formula-feed asks her midwife to walk her through safe preparation steps before the birth, rather than learning for the first time at 3am.',
+        tip:'Whichever way you plan to feed, ask your midwife or health visitor to show you the safe method in advance, not after the baby arrives.' },
+
+      { id:'pg80', num:'PG80', risk:'medium', title:'Emergency Contact List Preparation — Save It, Don\'t Memorise It',
+        who:'Anyone preparing for birth and the early weeks',
+        what:'No written, accessible list of key contacts for the birth and beyond',
+        where:'Home, cheat sheet',
+        why:'In an urgent moment, a saved, accessible list beats trying to remember numbers from memory — this is exactly what your personalised cheat sheet is designed for.',
+        how:'Fill in your maternity unit, doctor, a trusted support person, and any other key contacts in your SafeLife cheat sheet now, before you need it under pressure. Keep a printed copy somewhere visible as a backup to your phone.',
+        measurement:'General emergency-preparedness guidance (consistent across the SafeLife Collection): save your own local contact numbers in your personalised cheat sheet — this file never hardcodes them for you.',
+        example:'A couple fills in every row of their cheat sheet\'s contact list together in week 35 and prints a copy for the fridge.',
+        tip:'A printed backup on the fridge means the list still works even if a phone is uncharged or misplaced.' },
+
+      { id:'pg81', num:'PG81', risk:'medium', title:'Pet Introduction Preparation Basics',
+        who:'Anyone bringing a newborn home to a household with pets',
+        what:'Pets not gradually prepared for a new baby in the home',
+        where:'Home',
+        why:'A little gradual preparation — new smells, sounds, and routines introduced before the birth — generally makes the transition smoother and safer for both the pet and the baby.',
+        how:'Introduce baby-related sounds and smells (a recording of a baby crying, baby lotion) gradually before the birth, maintain the pet\'s normal routine as much as possible, and never leave a pet unsupervised alone with a newborn once home, however trusted the pet is.',
+        measurement:'General pet-introduction guidance (consistent across the SafeLife Collection): gradual scent/sound introduction and consistent supervision are the two core principles.',
+        example:'A couple plays a recording of a baby crying quietly in the background for a few weeks before the birth so it is not a completely new sound to their dog.',
+        tip:'Supervision, not trust, is what keeps any pet-and-baby introduction safe — this holds true regardless of how gentle the pet is.' },
+
+      { id:'pg82', num:'PG82', risk:'low', title:'Sibling Preparation Basics',
+        who:'Anyone with an older child preparing for a new baby',
+        what:'An older sibling not gently prepared for the changes a new baby brings',
+        where:'Home',
+        why:'A little age-appropriate preparation helps an older child feel included rather than blindsided, and can ease the adjustment for the whole family.',
+        how:'Talk about the new baby in simple, age-appropriate terms, involve the older child in small preparations (choosing a toy for the baby, helping set up the nursery), and plan who will care for them specifically during the birth itself.',
+        measurement:'General family-preparation guidance: age-appropriate involvement and a clear care plan for older siblings during the birth are recommended as standard antenatal preparation.',
+        example:'A family lets their toddler help choose a soft toy to "give" to the new baby, and confirms in advance which grandparent will care for him on the day.',
+        tip:'A small, special "big sibling" role — however small — can make a real difference to how included an older child feels.' },
+
+      { id:'pg83', num:'PG83', risk:'high', title:'Final Pre-Birth Home Safety Walkthrough',
+        who:'Anyone in the final weeks of pregnancy',
+        what:'Not doing one last, complete home-safety check before the baby arrives',
+        where:'Whole home',
+        why:'A final walkthrough catches anything missed across the earlier zones of this module, all in one pass, while there is still time and energy to act on it.',
+        how:'Walk through every room checking: smoke and carbon monoxide alarms tested, stairs and walkways clear, chemicals stored safely, the car seat fitted and checked, the crib set up correctly, and your cheat sheet\'s contacts filled in. Use this module\'s zone tabs as your walkthrough checklist.',
+        measurement:'General pre-birth home-safety guidance (consistent across the SafeLife Collection): a documented final walkthrough is recommended in the final weeks before the due date.',
+        example:'A couple works through every zone tab in this module together on a quiet Sunday at 37 weeks, ticking off what is done and noting what is left.',
+        tip:'Doing this walkthrough together, out loud, catches things a solo mental checklist tends to miss.' },
+
+      { id:'pg84', num:'PG84', risk:'low', title:'Trusting Your Body and Your Care Team',
+        who:'Anyone approaching the end of pregnancy',
+        what:'Facing labour and birth with more fear than confidence',
+        where:'Anywhere, in the final stretch of pregnancy',
+        why:'You have spent months learning, preparing, and building a support network — that preparation matters, and so does trusting your body and the professionals who will be with you.',
+        how:'Remind yourself of everything you have prepared: your birth plan, your hospital bag, your car seat, your cheat sheet, your support people. Trust that your care team is there precisely to help with the things you cannot predict, and that asking for help at any point is exactly what they are for.',
+        measurement:'Closing framing consistent with this module\'s core principle: preparation plus a trusted care team, not certainty, is what genuine readiness for birth looks like.',
+        example:'A woman finishes her final antenatal appointment, looks at her packed bag by the door, and feels ready — not because nothing could go wrong, but because she has prepared well and knows exactly who to call if it does.',
+        tip:'You do not have to feel fearless to be ready — you just have to be prepared and supported, and you are.' }
+    ]
+  }
+];
+// ═══════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════
+const STORE_KEY = 'safelife-pregnancy-pro';
+const completed = new Set();
+let lang = 'en', theme = 'lavender', mode = 'light', riskFilter = null, activeZone = 1;
+const TOTAL = 84;
+
+function t(key){ return (I18N[lang] && I18N[lang][key]) || I18N.en[key] || key; }
+function persist(){
+  try{ localStorage.setItem(STORE_KEY, JSON.stringify({completed:[...completed], lang, theme, mode})); }catch(e){}
+}
+function restore(){
+  try{
+    const raw = localStorage.getItem(STORE_KEY);
+    if(!raw) return;
+    const d = JSON.parse(raw);
+    (d.completed||[]).forEach(id=>completed.add(id));
+    if(false && d.lang && I18N[d.lang]) lang = d.lang; /* language switching disabled for English-only release — remove "false &&" to re-enable */
+    if(d.theme) theme = d.theme;
+    if(d.mode) mode = d.mode;
+  }catch(e){}
+}
+
+// ═══════════════════════════════════════════
+// PROGRESS & STATS
+// ═══════════════════════════════════════════
+function updateProgress(){
+  const done = completed.size;
+  document.getElementById('topbar-done').textContent = done;
+  document.getElementById('progress-count').textContent = done + ' ' + t('ofWord') + ' ' + TOTAL;
+  document.getElementById('progress-fill').style.width = (done/TOTAL*100) + '%';
+  ZONES.forEach(z=>{
+    const zDone = z.checks.filter(c=>completed.has(c.id)).length;
+    document.getElementById('ztc-'+z.id).textContent = zDone + '/' + z.checks.length;
+  });
+  document.getElementById('celebrate').classList.toggle('show', done === TOTAL);
+  persist();
+}
+function fillStats(){
+  const counts = {critical:0,high:0,medium:0,low:0};
+  ZONES.forEach(z=>z.checks.forEach(c=>counts[c.risk]++));
+  ['critical','high','medium','low'].forEach(r=>{ document.getElementById('s-'+r).textContent = counts[r]; });
+}
+
+// ═══════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════
+function buildCard(check){
+  const card = document.createElement('div');
+  card.className = 'check-card' + (completed.has(check.id) ? ' completed' : '');
+  card.dataset.id = check.id;
+  card.dataset.risk = check.risk;
+  card.innerHTML =
+    '<div class="check-header">' +
+      '<div class="check-checkbox">' + (completed.has(check.id) ? '✓' : '') + '</div>' +
+      '<div class="check-num">' + check.num + '</div>' +
+      '<div class="check-risk risk-' + check.risk + '">' + t(check.risk) + '</div>' +
+      '<div class="check-title">' + check.title + '</div>' +
+      '<div class="check-chevron">▼</div>' +
+    '</div>' +
+    '<div class="check-detail">' +
+      '<div class="detail-grid">' +
+        '<div class="detail-item"><div class="detail-label"><span>👤</span>' + t('who') + '</div><div class="detail-value">' + check.who + '</div></div>' +
+        '<div class="detail-item"><div class="detail-label"><span>⚠️</span>' + t('what') + '</div><div class="detail-value">' + check.what + '</div></div>' +
+        '<div class="detail-item"><div class="detail-label"><span>📍</span>' + t('where') + '</div><div class="detail-value">' + check.where + '</div></div>' +
+        '<div class="detail-item"><div class="detail-label"><span>❓</span>' + t('why') + '</div><div class="detail-value">' + check.why + '</div></div>' +
+        '<div class="detail-item full"><div class="detail-label"><span>🔧</span>' + t('how') + '</div><div class="detail-value">' + check.how + '</div></div>' +
+      '</div>' +
+      '<div class="measurement-box"><strong>📏 ' + t('standards') + '</strong>' + check.measurement + '</div>' +
+      '<div class="detail-item full" style="margin-top:10px;"><div class="detail-label"><span>💬</span>' + t('example') + '</div><div class="detail-value">' + check.example + '</div></div>' +
+      '<div class="tip-box"><span class="tip-icon">💡</span><span class="tip-text"><strong>' + t('quickTip') + ':</strong> ' + check.tip + '</span></div>' +
+    '</div>';
+  card.querySelector('.check-header').addEventListener('click', function(){ card.classList.toggle('open'); });
+  card.querySelector('.check-checkbox').addEventListener('click', function(e){
+    e.stopPropagation();
+    if(completed.has(check.id)){ completed.delete(check.id); card.classList.remove('completed'); this.textContent=''; }
+    else { completed.add(check.id); card.classList.add('completed'); this.textContent='✓'; }
+    updateProgress();
+  });
+  return card;
+}
+function renderAll(){
+  document.querySelectorAll('.zone-panel').forEach(p=>p.remove());
+  const main = document.getElementById('main-content');
+  ZONES.forEach(z=>{
+    const panel = document.createElement('div');
+    panel.className = 'zone-panel' + (z.id === activeZone ? ' active' : '');
+    panel.id = 'zone-panel-' + z.id;
+    const header = document.createElement('div');
+    header.className = 'zone-header';
+    header.innerHTML = '<div class="zone-icon">' + (ICONS['z'+z.id] || z.icon) + '</div><div class="zone-header-text"><h2>' + t('z'+z.id) + '</h2><p>' + t('zd'+z.id) + '</p></div>';
+    panel.appendChild(header);
+    const actions = document.createElement('div');
+    actions.className = 'zone-actions';
+    const bExpand = document.createElement('button'); bExpand.className='btn btn-outline'; bExpand.textContent=t('expandAll');
+    const bCollapse = document.createElement('button'); bCollapse.className='btn btn-outline'; bCollapse.textContent=t('collapseAll');
+    const bUnmark = document.createElement('button'); bUnmark.className='btn btn-outline'; bUnmark.textContent=t('unmarkAll');
+    const bMark = document.createElement('button'); bMark.className='btn btn-primary'; bMark.textContent=t('markAll');
+    actions.append(bExpand,bCollapse,bUnmark,bMark);
+    panel.appendChild(actions);
+    const list = document.createElement('div');
+    list.className = 'checks-list';
+    z.checks.forEach(c=>list.appendChild(buildCard(c)));
+    panel.appendChild(list);
+    const disc = document.createElement('div');
+    disc.className = 'zone-disclaimer';
+    disc.textContent = '⚕ ' + t('disclaimer');
+    panel.appendChild(disc);
+    bExpand.addEventListener('click', ()=>list.querySelectorAll('.check-card').forEach(c=>c.classList.add('open')));
+    bCollapse.addEventListener('click', ()=>list.querySelectorAll('.check-card').forEach(c=>c.classList.remove('open')));
+    bMark.addEventListener('click', ()=>{ z.checks.forEach(c=>completed.add(c.id)); refreshCards(list); });
+    bUnmark.addEventListener('click', ()=>{ z.checks.forEach(c=>completed.delete(c.id)); refreshCards(list); });
+    main.appendChild(panel);
+  });
+  applyFilters();
+  updateProgress();
+}
+function refreshCards(list){
+  list.querySelectorAll('.check-card').forEach(card=>{
+    const done = completed.has(card.dataset.id);
+    card.classList.toggle('completed', done);
+    card.querySelector('.check-checkbox').textContent = done ? '✓' : '';
+  });
+  updateProgress();
+}
+
+// ═══════════════════════════════════════════
+// ZONES / SEARCH / FILTERS
+// ═══════════════════════════════════════════
+function switchZone(id){
+  activeZone = id;
+  document.querySelectorAll('.zone-tab').forEach(tab=>tab.classList.toggle('active', +tab.dataset.zone === id));
+  document.querySelectorAll('.zone-panel').forEach(p=>p.classList.toggle('active', p.id === 'zone-panel-' + id));
+}
+document.querySelectorAll('.zone-tab').forEach(tab=>{
+  tab.addEventListener('click', ()=>{ document.getElementById('search-input').value=''; applyFilters(); switchZone(+tab.dataset.zone); });
+});
+document.querySelectorAll('.hero-badge[data-zone]').forEach(badge=>{
+  badge.addEventListener('click', ()=>{
+    switchZone(+badge.dataset.zone);
+    document.getElementById('zone-tabs').scrollIntoView({behavior:'smooth'});
+  });
+});
+document.querySelectorAll('.stat-pill[data-risk]').forEach(pill=>{
+  pill.addEventListener('click', ()=>{
+    riskFilter = (riskFilter === pill.dataset.risk) ? null : pill.dataset.risk;
+    document.querySelectorAll('.stat-pill[data-risk]').forEach(p=>p.classList.toggle('filter-on', p.dataset.risk === riskFilter));
+    applyFilters();
+  });
+});
+document.getElementById('search-input').addEventListener('input', applyFilters);
+
+function applyFilters(){
+  const q = document.getElementById('search-input').value.trim().toLowerCase();
+  const searching = q.length > 0;
+  let anyVisible = false;
+  ZONES.forEach(z=>{
+    const panel = document.getElementById('zone-panel-' + z.id);
+    if(!panel) return;
+    let zoneVisible = 0;
+    panel.querySelectorAll('.check-card').forEach(card=>{
+      const check = z.checks.find(c=>c.id === card.dataset.id);
+      const text = (check.title+' '+check.who+' '+check.what+' '+check.where+' '+check.why+' '+check.how+' '+check.measurement+' '+check.example+' '+check.tip).toLowerCase();
+      const matchQ = !searching || text.includes(q);
+      const matchR = !riskFilter || check.risk === riskFilter;
+      const show = matchQ && matchR;
+      card.style.display = show ? '' : 'none';
+      if(show) zoneVisible++;
+    });
+    if(searching || riskFilter){
+      panel.classList.toggle('active', zoneVisible > 0);
+      panel.querySelector('.zone-actions').style.display = 'none';
+    } else {
+      panel.classList.toggle('active', z.id === activeZone);
+      panel.querySelector('.zone-actions').style.display = '';
+    }
+    if(zoneVisible > 0) anyVisible = true;
+  });
+  document.getElementById('search-no-results').style.display = (searching || riskFilter) && !anyVisible ? 'block' : 'none';
+}
+
+// ═══════════════════════════════════════════
+// THEMES / MODE / LANGUAGE
+// ═══════════════════════════════════════════
+const THEMES = [
+  {id:'lavender', name:'Soft Lavender',  c:'#A78BFA'},
+  {id:'teal',   name:'Teal Calm',     c:'#14B8A6'},
+  {id:'amber',  name:'Warm Amber',    c:'#F59E0B'},
+  {id:'rose',   name:'Rose Care',     c:'#E11D48'},
+  {id:'violet', name:'Gentle Violet', c:'#7C3AED'},
+  {id:'ocean',  name:'Ocean Blue',    c:'#2563EB'},
+  {id:'forest', name:'Forest Green',  c:'#16A34A'}
+];
+function buildThemeMenu(){
+  const dd = document.getElementById('dd-theme');
+  dd.innerHTML = '<div class="dropdown-title">' + t('theme') + '</div>';
+  THEMES.forEach(th=>{
+    const row = document.createElement('button');
+    row.className = 'theme-row' + (th.id === theme ? ' selected' : '');
+    row.innerHTML = '<span class="theme-swatch" style="background:' + th.c + '"></span>' + th.name + (th.id === theme ? '<span class="check-mark">✓</span>' : '');
+    row.addEventListener('click', e=>{
+      e.stopPropagation();
+      theme = th.id;
+      document.body.dataset.theme = theme;
+      buildThemeMenu(); persist();
+    });
+    dd.appendChild(row);
+  });
+}
+function buildLangMenu(){
+  const dd = document.getElementById('dd-lang');
+  dd.innerHTML = '<div class="dropdown-title">🌐 Language</div>';
+  Object.keys(I18N).forEach(code=>{
+    const row = document.createElement('button');
+    row.className = 'theme-row' + (code === lang ? ' selected' : '');
+    row.innerHTML = '<span style="font-weight:800;font-size:11px;color:var(--accent);min-width:22px;">' + code.toUpperCase() + '</span>' + I18N[code].name + (code === lang ? '<span class="check-mark">✓</span>' : '');
+    row.addEventListener('click', e=>{
+      e.stopPropagation();
+      lang = code;
+      applyLang(); renderAll(); buildLangMenu(); buildManual(); buildCheat(); buildCollection(); persist();
+    });
+    dd.appendChild(row);
+  });
+  const note = document.createElement('div');
+  note.style.cssText = 'font-size:10.5px;color:var(--ink-soft);padding:8px;max-width:230px;line-height:1.4;';
+  note.textContent = t('langNote');
+  dd.appendChild(note);
+}
+function applyLang(){
+  document.querySelectorAll('[data-i18n]').forEach(el=>{ el.innerHTML = t(el.dataset.i18n); });
+  document.getElementById('search-input').placeholder = t('searchPh');
+  document.getElementById('lang-label').textContent = lang.toUpperCase();
+  document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+  document.documentElement.lang = lang;
+}
+function toggleDropdown(id, e){
+  e.stopPropagation();
+  const dd = document.getElementById(id);
+  const wasOpen = dd.classList.contains('open');
+  document.querySelectorAll('.dropdown').forEach(d=>d.classList.remove('open'));
+  if(!wasOpen) dd.classList.add('open');
+}
+document.getElementById('btn-theme').addEventListener('click', e=>toggleDropdown('dd-theme', e));
+document.getElementById('btn-lang').addEventListener('click', e=>toggleDropdown('dd-lang', e));
+document.addEventListener('click', ()=>document.querySelectorAll('.dropdown').forEach(d=>d.classList.remove('open')));
+document.getElementById('btn-mode').addEventListener('click', function(){
+  mode = mode === 'light' ? 'dark' : 'light';
+  document.body.dataset.mode = mode;
+  this.textContent = mode === 'light' ? '🌙' : '☀️';
+  persist();
+});
+
+// ═══════════════════════════════════════════
+// SAVE / LOAD PROGRESS
+// ═══════════════════════════════════════════
+document.getElementById('btn-save').addEventListener('click', ()=>{
+  const data = { product:'SafeLife', module:'pregnancy', version:1, savedAt:new Date().toISOString(), completed:[...completed], lang, theme, mode };
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'SafeLife_Pregnancy_Progress_' + new Date().toISOString().slice(0,10) + '.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
+});
+document.getElementById('btn-load').addEventListener('click', ()=>document.getElementById('load-file').click());
+document.getElementById('load-file').addEventListener('change', function(){
+  const file = this.files[0]; if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ()=>{
+    try{
+      const d = JSON.parse(reader.result);
+      if(d.module !== 'pregnancy' && !confirm('This file was saved from a different module. Load anyway?')) return;
+      completed.clear();
+      (d.completed||[]).forEach(id=>completed.add(id));
+      if(false && d.lang && I18N[d.lang]) lang = d.lang; /* language switching disabled for English-only release — remove "false &&" to re-enable */
+      if(d.theme) theme = d.theme;
+      if(d.mode) mode = d.mode;
+      document.body.dataset.theme = theme;
+      document.body.dataset.mode = mode;
+      document.getElementById('btn-mode').textContent = mode === 'light' ? '🌙' : '☀️';
+      applyLang(); renderAll(); buildThemeMenu(); buildLangMenu(); persist();
+    }catch(e){ alert('Could not read that file — is it a SafeLife progress file?'); }
+  };
+  reader.readAsText(file);
+  this.value = '';
+});
+
+// ═══════════════════════════════════════════
+// MODALS / PRINT / NAV
+// ═══════════════════════════════════════════
+function openModal(id){ document.getElementById(id).classList.add('open'); }
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-close').forEach(b=>b.addEventListener('click', ()=>closeModal(b.dataset.close)));
+document.querySelectorAll('.modal-overlay').forEach(o=>o.addEventListener('click', e=>{ if(e.target === o) o.classList.remove('open'); }));
+document.getElementById('btn-manual').addEventListener('click', ()=>openModal('modal-manual'));
+document.getElementById('btn-cheat').addEventListener('click', ()=>openModal('modal-cheat'));
+document.getElementById('btn-print').addEventListener('click', ()=>openModal('modal-print'));
+document.getElementById('btn-search').addEventListener('click', ()=>{
+  const s = document.getElementById('search-input');
+  s.scrollIntoView({behavior:'smooth', block:'center'});
+  setTimeout(()=>s.focus(), 350);
+});
+
+function doPrint(cls){
+  document.querySelectorAll('.modal-overlay').forEach(o=>o.classList.remove('open'));
+  const wasOpen = new Set([...document.querySelectorAll('.check-card.open')]);
+  document.querySelectorAll('.check-card').forEach(c=>c.classList.add('open'));
+  if(cls) document.body.classList.add(cls);
+  const cleanup = ()=>{
+    document.body.classList.remove('print-zone','print-cheat');
+    document.querySelectorAll('.check-card').forEach(c=>{ if(!wasOpen.has(c)) c.classList.remove('open'); });
+    window.removeEventListener('afterprint', cleanup);
+  };
+  window.addEventListener('afterprint', cleanup);
+  setTimeout(()=>window.print(), 60);
+}
+document.getElementById('print-all').addEventListener('click', ()=>doPrint(null));
+document.getElementById('print-zone').addEventListener('click', ()=>doPrint('print-zone'));
+document.getElementById('print-cheat2').addEventListener('click', ()=>doPrint('print-cheat'));
+document.getElementById('btn-print-cheat').addEventListener('click', ()=>doPrint('print-cheat'));
+function visibleCards(){
+  return [...document.querySelectorAll('.zone-panel.active .check-card')].filter(c=>c.style.display !== 'none');
+}
+function nearestCardIx(cards){
+  const mark = window.innerHeight * 0.35;
+  let best = 0, bestDist = Infinity;
+  cards.forEach((c, i)=>{
+    const d = Math.abs(c.getBoundingClientRect().top - mark);
+    if(d < bestDist){ bestDist = d; best = i; }
+  });
+  return best;
+}
+function goToCard(cards, ix){
+  if(ix < 0){ window.scrollTo({top:0, behavior:'smooth'}); return; }
+  if(ix > cards.length - 1) ix = cards.length - 1;
+  const y = cards[ix].getBoundingClientRect().top + window.scrollY - window.innerHeight * 0.35;
+  window.scrollTo({top: Math.max(0, y), behavior:'smooth'});
+}
+document.getElementById('fn-top').addEventListener('click', ()=>window.scrollTo({top:0, behavior:'smooth'}));
+document.getElementById('fn-next').addEventListener('click', ()=>{
+  const cards = visibleCards(); if(!cards.length) return;
+  goToCard(cards, nearestCardIx(cards) + 1);
+});
+document.getElementById('fn-prev').addEventListener('click', ()=>{
+  const cards = visibleCards(); if(!cards.length) return;
+  goToCard(cards, nearestCardIx(cards) - 1);
+});
+
+// ═══════════════════════════════════════════
+// MANUAL / CHEAT SHEET / COLLECTION
+// ═══════════════════════════════════════════
+function buildManual(){
+  document.getElementById('manual-body').innerHTML =
+    t('manualBody') +
+    '<h4>⚕</h4><p>' + t('disclaimer') + ' ' + t('langNote') + '</p>';
+}
+
+const GOLDEN_RULES = [
+  'Any vaginal bleeding, reduced fetal movement, severe headache with visual changes, severe abdominal pain, or a fever of 38°C (100.4°F)+ — call your maternity provider immediately, any time of day or night',
+  'Sleep on your side, ideally the left, from around 28 weeks — avoid long periods flat on your back',
+  'Car seatbelt: lap strap low under the bump across the hips, diagonal strap between the breasts, never across the bump',
+  'No alcohol is the safest choice in pregnancy; ask for support to stop smoking at any stage',
+  'Check every medication — including over-the-counter and herbal — with your pharmacist, doctor, or midwife before taking it',
+  'Avoid handling cat litter and wear gloves for gardening — both reduce toxoplasmosis risk',
+  'Avoid saunas, hot tubs, and very hot baths — keep bath water around 37–38°C (98.6–100.4°F)',
+  'Rear-facing, professionally checked car seat meeting UN R129 (i-Size) or equivalent, ready before your due date',
+  'Crib safety: firm flat mattress, no loose bedding, pillows, bumpers, or soft toys',
+  'When in doubt about any symptom, call your maternity provider — it is never an inappropriate use of the service'
+];
+const KEY_NUMBERS = [
+  ['Fever threshold','38°C (100.4°F)+ = call your provider same day'],
+  ['Bath / bathing water','37–38°C (98.6–100.4°F)'],
+  ['Safe sleep position','side-lying (left) from ~28 weeks'],
+  ['Car seat standard','UN R129 (i-Size) or equivalent, rear-facing'],
+  ['Anatomy scan window','commonly 18–22 weeks'],
+  ['First antenatal contact','ideally by ~10 weeks'],
+  ['Airline travel restriction','commonly ~36 weeks (28–32 weeks for multiples) — confirm with airline'],
+  ['Folic acid','from before conception through first 12 weeks'],
+  ['Antenatal contacts (WHO model)','minimum 8 across pregnancy'],
+  ['Moderate activity target','~150 minutes/week if uncomplicated pregnancy'],
+  ['Reduced fetal movement','any change from baby\'s usual pattern = call immediately'],
+  ['Bedroom temperature for sleep','~16–19°C (61–66°F)'],
+  ['Bleeding','any amount = same-day call; heavy or with pain = emergency'],
+  ['Persistent low mood/anxiety','2+ weeks = raise with your midwife or doctor']
+];
+
+const CONTACTS_KEY = 'safelife-pregnancy-contacts';
+const DEFAULT_CONTACTS = [
+  ['Emergency services',''],
+  ['Midwife / maternity unit',''],
+  ['Obstetrician / doctor',''],
+  ['Poisons information centre',''],
+  ['Mental-health / crisis line',''],
+  ['Nearest hospital maternity unit',''],
+  ['Partner / main support person',''],
+  ['Trusted family or friend','']
+];
+let contacts;
+try{
+  const raw = localStorage.getItem(CONTACTS_KEY);
+  contacts = raw ? JSON.parse(raw) : null;
+}catch(e){ contacts = null; }
+if(!contacts || !Array.isArray(contacts.list)) contacts = { list: DEFAULT_CONTACTS.map(c=>c.slice()), notes:'' };
+function saveContacts(){
+  try{ localStorage.setItem(CONTACTS_KEY, JSON.stringify(contacts)); }catch(e){}
+  buildCheatPrint();
+}
+function buildCheat(){
+  const body = document.getElementById('cheat-body');
+  const rules = GOLDEN_RULES.map(r=>'<li>' + r + '</li>').join('');
+  const nums = KEY_NUMBERS.map(n=>'<tr><td><strong>' + n[0] + '</strong></td><td>' + n[1] + '</td></tr>').join('');
+  body.innerHTML =
+    '<h4>📞 ' + t('cheatContacts') + '</h4>' +
+    '<p style="font-size:12px;color:var(--ink-soft);margin-bottom:8px;">' + t('cheatHint') + '</p>' +
+    '<div id="contact-rows"></div>' +
+    '<button class="btn btn-outline" id="add-contact" style="margin:8px 0 4px;">' + t('addContact') + '</button>' +
+    '<h4>⭐ ' + t('rules') + '</h4><ul class="rule-list">' + rules + '</ul>' +
+    '<h4>📏 ' + t('keyNums') + '</h4><table><tr><th>Check</th><th>Safe value / standard</th></tr>' + nums + '</table>' +
+    '<h4>📝 ' + t('myNotes') + '</h4>' +
+    '<textarea id="cheat-notes" placeholder="' + t('notesPh') + '" style="width:100%;min-height:80px;border:1px solid var(--line);border-radius:8px;background:var(--tile);color:var(--ink);padding:10px 12px;font-family:\'Inter\',sans-serif;font-size:13px;resize:vertical;"></textarea>';
+  renderContactRows();
+  const notesEl = document.getElementById('cheat-notes');
+  notesEl.value = contacts.notes || '';
+  notesEl.addEventListener('input', function(){ contacts.notes = this.value; saveContacts(); });
+  document.getElementById('add-contact').addEventListener('click', function(){
+    contacts.list.push(['','']);
+    renderContactRows(); saveContacts();
+    const rows = document.querySelectorAll('#contact-rows .c-name');
+    rows[rows.length-1].focus();
+  });
+  buildCheatPrint();
+}
+function renderContactRows(){
+  const wrap = document.getElementById('contact-rows');
+  if(!wrap) return;
+  wrap.innerHTML = '';
+  const inputCss = 'border:1px solid var(--line);border-radius:8px;background:var(--tile);color:var(--ink);padding:8px 10px;font-family:\'Inter\',sans-serif;font-size:13px;';
+  contacts.list.forEach((c, ix)=>{
+    const row = document.createElement('div');
+    row.style.cssText = 'display:flex;gap:6px;margin-bottom:6px;align-items:center;';
+    const name = document.createElement('input');
+    name.className = 'c-name'; name.type = 'text'; name.value = c[0];
+    name.placeholder = 'Name / service'; name.style.cssText = inputCss + 'flex:1.4;min-width:0;';
+    const num = document.createElement('input');
+    num.type = 'text'; num.value = c[1];
+    num.placeholder = '+ number'; num.style.cssText = inputCss + 'flex:1;min-width:0;font-weight:700;';
+    const del = document.createElement('button');
+    del.textContent = '✕'; del.title = t('delRow');
+    del.style.cssText = 'border:1px solid var(--line);background:var(--surface);color:var(--ink-soft);border-radius:8px;width:30px;height:34px;cursor:pointer;flex-shrink:0;';
+    name.addEventListener('input', function(){ contacts.list[ix][0] = this.value; saveContacts(); });
+    num.addEventListener('input', function(){ contacts.list[ix][1] = this.value; saveContacts(); });
+    del.addEventListener('click', function(){ contacts.list.splice(ix,1); renderContactRows(); saveContacts(); });
+    row.append(name, num, del);
+    wrap.appendChild(row);
+  });
+}
+function buildCheatPrint(){
+  const esc = s => String(s).replace(/</g,'&lt;');
+  const filled = contacts.list.filter(c=>c[0] || c[1]);
+  const chips = filled.map(h=>'<div class="cp-chip"><b>' + esc(h[0]||'—') + '</b><span>' + (esc(h[1]) || '____________') + '</span></div>').join('');
+  const rules = GOLDEN_RULES.map(r=>'<li>' + r + '</li>').join('');
+  const nums = KEY_NUMBERS.map(n=>'<tr><td><strong>' + n[0] + '</strong></td><td>' + n[1] + '</td></tr>').join('');
+  const activeQR = getSavedQR() || QR_IMAGE;
+  const qr = activeQR
+    ? '<img src="' + activeQR + '" alt="QR">'
+    : '<div class="qr-ph">' + (STORE_URL ? esc(STORE_URL) : 'Your QR<br>code here') + '</div>';
+  document.getElementById('cheat-print').innerHTML =
+    '<div class="cp-card">' +
+      '<div class="cp-head">' + ICONS.stage +
+        '<div><div class="cp-title">Safe<em>Life</em></div>' +
+        '<div class="cp-sub">' + t('cheatTitle') + ' · ' + t('heroTitle') + '</div></div>' +
+        '<div class="cp-tag">"To all moms by a mom"<br>NEBOSH &amp; OSHA trained HSE professional</div>' +
+      '</div>' +
+      '<div class="cp-contacts">' + chips + '</div>' +
+      '<div class="cp-cols">' +
+        '<div class="cp-rules"><h3>⭐ ' + t('rules') + '</h3><ul>' + rules + '</ul></div>' +
+        '<div class="cp-numsec"><h3>📏 ' + t('keyNums') + '</h3><table>' + nums + '</table></div>' +
+      '</div>' +
+      (contacts.notes ? '<div class="cp-notes"><b>' + t('myNotes') + '</b>' + esc(contacts.notes) + '</div>' : '') +
+      '<div class="cp-foot">' +
+        '<div>Made with care by <b>' + BRAND_NAME + '</b> · SafeLife Collection<br>' + t('disclaimer') + '</div>' +
+        '<div class="cp-qr">' + (STORE_URL ? '<div style="font-size:8px;">' + esc(STORE_URL) + '<br>Scan for the full collection</div>' : '') + qr + '</div>' +
+      '</div>' +
+    '</div>';
+}
+
+// ═══════════════════════════════════════════
+// SELLER: per-product QR code, PIN-protected (each file's own STORE_KEY keeps these separate)
+// ═══════════════════════════════════════════
+const QR_KEY = STORE_KEY + '-qr';
+const QR_PIN_KEY = STORE_KEY + '-qrpin';
+function getSavedQR(){ try{ return localStorage.getItem(QR_KEY) || ''; }catch(e){ return ''; } }
+function sellerRenderLocked(){
+  const hasPin = !!localStorage.getItem(QR_PIN_KEY);
+  document.getElementById('seller-body').innerHTML = hasPin
+    ? '<p>Enter your PIN to manage this file\'s QR code.</p><input type="password" inputmode="numeric" maxlength="12" id="seller-pin-input" placeholder="PIN" style="width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--tile);color:var(--ink);font-size:15px;letter-spacing:2px;margin-bottom:10px;">'
+      + '<div class="modal-actions"><button class="btn btn-primary" id="seller-unlock">Unlock</button></div>'
+    : '<p>No PIN set yet for this file. Create one now — you\'ll need it to change the QR code later. Every product file keeps its own separate PIN and QR code.</p>'
+      + '<input type="password" inputmode="numeric" maxlength="12" id="seller-pin-new" placeholder="Create a PIN" style="width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--tile);color:var(--ink);font-size:15px;letter-spacing:2px;margin-bottom:8px;">'
+      + '<input type="password" inputmode="numeric" maxlength="12" id="seller-pin-confirm" placeholder="Confirm PIN" style="width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--tile);color:var(--ink);font-size:15px;letter-spacing:2px;margin-bottom:10px;">'
+      + '<div class="modal-actions"><button class="btn btn-primary" id="seller-setpin">Set PIN</button></div>';
+  if(hasPin){
+    document.getElementById('seller-unlock').addEventListener('click', function(){
+      const val = document.getElementById('seller-pin-input').value;
+      if(val && val === localStorage.getItem(QR_PIN_KEY)) sellerRenderUnlocked();
+      else alert('Incorrect PIN.');
+    });
+  } else {
+    document.getElementById('seller-setpin').addEventListener('click', function(){
+      const a = document.getElementById('seller-pin-new').value, b = document.getElementById('seller-pin-confirm').value;
+      if(!a || a.length < 4){ alert('Use at least 4 digits.'); return; }
+      if(a !== b){ alert('PINs do not match.'); return; }
+      try{ localStorage.setItem(QR_PIN_KEY, a); }catch(e){}
+      sellerRenderUnlocked();
+    });
+  }
+}
+function sellerRenderUnlocked(){
+  const current = getSavedQR();
+  document.getElementById('seller-body').innerHTML =
+    '<p>Upload this product\'s QR code image. It replaces the placeholder on the printed cheat sheet — saved on this device only, separately for every product file.</p>' +
+    (current ? '<img src="' + current + '" style="width:110px;height:110px;border:1px solid var(--line);border-radius:9px;margin-bottom:10px;object-fit:contain;background:#fff;">' : '') +
+    '<input type="file" accept="image/*" id="seller-qr-file" style="margin-bottom:10px;">' +
+    '<div class="modal-actions">' +
+      '<button class="btn btn-outline" id="seller-remove-qr">Remove QR</button>' +
+      '<button class="btn btn-outline" id="seller-change-pin">Change PIN</button>' +
+      '<button class="btn btn-primary" id="seller-done">Done</button>' +
+    '</div>';
+  document.getElementById('seller-qr-file').addEventListener('change', function(e){
+    const file = e.target.files && e.target.files[0]; if(!file) return;
+    const reader = new FileReader();
+    reader.onload = function(ev){
+      try{ localStorage.setItem(QR_KEY, ev.target.result); }catch(e){}
+      buildCheatPrint();
+      sellerRenderUnlocked();
+    };
+    reader.readAsDataURL(file);
+  });
+  document.getElementById('seller-remove-qr').addEventListener('click', function(){
+    try{ localStorage.removeItem(QR_KEY); }catch(e){}
+    buildCheatPrint();
+    sellerRenderUnlocked();
+  });
+  document.getElementById('seller-change-pin').addEventListener('click', function(){
+    try{ localStorage.removeItem(QR_PIN_KEY); }catch(e){}
+    sellerRenderLocked();
+  });
+  document.getElementById('seller-done').addEventListener('click', ()=>closeModal('modal-seller'));
+}
+document.getElementById('btn-seller').addEventListener('click', function(){ sellerRenderLocked(); openModal('modal-seller'); });
+
+const MODULES = [
+  {a:'Stage 0', owned:true},
+  {a:'0–28 Days'},
+  {a:'1–12 Months'},
+  {a:'1–3 Years'},
+  {a:'3–6 Years'},
+  {a:'6–12 Years'},
+  {a:'13–18 Years'},
+  {a:'19–29 Years'},
+  {a:'30–44 Years'},
+  {a:'45–64 Years'},
+  {a:'65–79 Years'},
+  {a:'80–89 Years'},
+  {a:'90+ Years'}
+];
+const MODULE_ICON_IX = [8,0,0,1,2,3,4,5,6,6,7,7,7];
+const SITUATION_MODULES = [
+  {name:'Pregnancy', sub:'Stage 0', status:'current', emoji:'🤰'},
+  {name:'Postpartum Recovery', sub:'Situation Module', status:'available', emoji:'🌷'},
+  {name:'Grandparent-Proofing', sub:'Situation Module', status:'available', emoji:'👵'},
+  {name:'Autism & Neurodivergent Children', sub:'Situation Module', status:'available', emoji:'♾️'},
+  {name:'Emergency Preparedness', sub:'Situation Module', status:'available', emoji:'🧳'},
+  {name:'Twins & Multiples', sub:'Situation Module', status:'available', emoji:'👯'},
+  {name:'Babysitter/Nanny Handover', sub:'Situation Module', status:'available', emoji:'🗒️'},
+  {name:'Dementia & Alzheimer\'s Care', sub:'Situation Module', status:'available', emoji:'🏠'},
+  {name:'Injury & Post-Surgery Recovery', sub:'Coming Soon', status:'available', emoji:'🩹'},
+  {name:'Chronic Conditions Household', sub:'Coming Soon', status:'available', emoji:'💊'},
+  {name:'Limited Mobility / Wheelchair', sub:'Coming Soon', status:'available', emoji:'♿'},
+  {name:'Visually / Hearing Impaired', sub:'Situation Module', status:'available', emoji:'🔔'},
+  {name:'New Pet + Baby Household', sub:'Coming Soon', status:'coming', emoji:'🐾'},
+  {name:'The Caregiver\'s Own Safety', sub:'Coming Soon', status:'coming', emoji:'🤲'},
+  {name:'New Home Move-In Audit', sub:'Coming Soon', status:'coming', emoji:'🏠'},
+  {name:'Farm & Rural Household', sub:'Coming Soon', status:'coming', emoji:'🚜'},
+  {name:'Home Office / WFH', sub:'Coming Soon', status:'coming', emoji:'💻'}
+];
+function buildSituationGrid(){
+  const grid = document.getElementById('situation-grid');
+  if(!grid) return;
+  grid.innerHTML = '';
+  SITUATION_MODULES.forEach(m=>{
+    const card = document.createElement('div');
+    card.className = 'module-card';
+    const tagClass = m.status === 'coming' ? 'coming' : (m.status === 'current' ? 'owned' : 'addon');
+    const tagLabel = m.status === 'coming' ? 'Coming Soon' : (m.status === 'current' ? '✓ Current Module' : 'Available Separately');
+    card.innerHTML = '<span class="m-emoji">' + m.emoji + '</span><span class="m-name">' + m.name + '</span><span class="m-age">' + m.sub + '</span>' +
+      '<span class="module-tag ' + tagClass + '">' + tagLabel + '</span>';
+    grid.appendChild(card);
+  });
+}
+function buildCollection(){
+  const grid = document.getElementById('collection-grid');
+  grid.innerHTML = '';
+  MODULES.forEach((m, mi)=>{
+    const card = document.createElement('div');
+    card.className = 'module-card';
+    const iconIx = MODULE_ICON_IX[mi] != null ? MODULE_ICON_IX[mi] : mi;
+    card.innerHTML = '<span class="m-emoji">' + ICONS.stages[iconIx] + '</span><span class="m-name">' + t('mn'+(mi+1)) + '</span><span class="m-age">' + m.a + '</span>' +
+      '<span class="module-tag ' + (m.owned ? 'owned' : 'addon') + '">' + (m.owned ? t('owned') : t('addon')) + '</span>';
+    grid.appendChild(card);
+  });
+}
+
+// ═══════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════
+restore();
+injectIcons();
+document.body.dataset.theme = theme;
+document.body.dataset.mode = mode;
+document.getElementById('btn-mode').textContent = mode === 'light' ? '🌙' : '☀️';
+applyLang();
+fillStats();
+renderAll();
+buildThemeMenu();
+buildLangMenu();
+buildManual();
+buildCheat();
+buildCollection();
+buildSituationGrid();
+</script>
+</body>
+</html>
